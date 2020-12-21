@@ -1,0 +1,190 @@
+@charset "UTF-8";
+.cup
+{
+	display: flex;
+	flex-wrap: wrap;
+	border-collapse: separate;
+	border-spacing: 20px;
+}
+.wire h4
+{
+	position: relative;
+	top: 95px;
+	left: 280px;
+	font-family: Impact, Charcoal, sans-serif;
+	font-size: 20px;
+}
+.cup .box
+{
+	position: relative;
+	bottom:90px;
+	left:280px;
+	width: 390px;
+	padding: 40px;
+	background: #fff;
+	box-shadow: 0 5px 15px rgba(0,0,0,.1);
+	border-radius: 4px;
+	margin: 15px;
+	margin-left: 20px;
+	box-sizing: border-box;
+	overflow: hidden;
+}	
+.cup .box:before
+{
+	content: ' ';
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: #b35d7a;
+	transform: scaleY(0);
+	transform-origin: top;
+	transition: transform 0.5s;
+}
+.cup .box:hover:before
+{
+	transform: scaleY(1);
+	transform-origin: bottom;
+	transition: transform 0.5s;
+}
+
+.cup .box .icon
+{
+	position: absolute;
+	left: 40px:
+	top: 30px;
+	font-size: 2em;
+	font-weight: 800;
+	z-index: 1;
+	opacity: 0.1;
+	transition: 0.5s;
+}
+.cup .box:hover .icon
+{
+	opacity: 1;
+	color: #fff;
+	transform: translateY(-40px);
+}
+.cup .box .content
+{
+	position: relative;
+	z-index: 1;
+	transition: 0.5s;
+}
+.cup .box .content h3
+{
+	position: relative;
+	font-size: 1.5em;
+	font-weight: 600;
+	z-index: 2;
+	color: #333;
+	transition: 0.5s;
+}
+.cup .box .content p
+{
+	position: relative;
+	z-index: 2;
+	color: #555;
+	transition: 0.5s;
+}
+.cup .box:hover .content p,
+.cup .box:hover .content h3
+{
+	color: #fff;
+}
+.cup .box:hover .content a
+{
+	display: inline-block;
+	padding: 10px 20px;
+	background: #fff;
+	border-radius: 4px;
+	text-decoration: none;
+	color: #000;
+	font-weight: 500;
+	margin-top: 20px:
+	box-shadow: 0 2px 5px rgba(0,0,0,.2);
+}
+
+.title
+{
+	background-color: #ADD8E6;
+	padding-right: 400px;
+	padding-left: 80px;
+}
+.title h1
+{
+	font-weight: 800px;
+	padding-right: 150px;
+	padding-top: 140px;
+}
+.title p
+{
+	font-family: Arial, Helvetica, sans-serif;
+}
+.details
+{
+	padding-right: 400px;
+	padding-left: 80px;
+}
+.details h4
+{
+	font-family: Impact, Charcoal, sans-serif;
+}
+.details p
+{
+	font-family: Arial, Helvetica, sans-serif;
+}
+.card
+{
+	position: absolute;
+	left: 900px;
+	top: 220px;
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+	max-width: 250px;
+	padding-top: 20px;
+}
+.card h3
+{
+	text-align: center;
+	font-family: Impact, Charcoal, sans-serif;
+	font-size: 18px;
+}
+
+.card p
+{
+	text-align: center;
+	font-size: 16px;
+}
+
+.card a{
+  display: block;
+  background: #6E2630;
+  color: #fff;
+  padding: 10px;
+  text-align: center;
+  text-decoration: none;
+  width: 180px;
+  margin-top: 20px;
+  margin-bottom: 50px;
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
+.card a:hover {
+   box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
+}
+ 
+.card select
+{
+	width: 150px;
+	select-align: center;
+}
+
+.card input
+{
+	width: 70px;
+	margin-left: 70px;
+	margin-right: 70px;
+}
+
