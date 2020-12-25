@@ -71,6 +71,13 @@ if (isset($_SESSION['ADMIN_LOGIN']) && $_SESSION['ADMIN_LOGIN'] != '') {
           <span>Invoice Issued</span></a>
       </li>
 
+	  <hr class="sidebar-divider my-0">
+
+      <li class="nav-item active">
+        <a class="nav-link" href="order_manage.php">
+          <span>Order Manage</span></a>
+      </li>
+
       <!-- Divider -->
       <hr class="sidebar-divider my-0">
 

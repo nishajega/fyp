@@ -1,6 +1,7 @@
 <?php
 require('top.php');
 require('functions.php');
+require_once('config.php');
 if(!isset($_SESSION['cart']) || count($_SESSION['cart'])==0){
 	?>
 	<script>
@@ -10,41 +11,38 @@ if(!isset($_SESSION['cart']) || count($_SESSION['cart'])==0){
 }
 
 $cart_total=0;
-foreach($_SESSION['cart'] as $key => $val){
-	$productArr=get_product($con,'','',$key);
-	$price=$productArr[0]['price'];
-	$quantity=$val['quantity'];
-	$cart_total=$cart_total+($price*$quantity);
-}
 
 if(isset($_POST['submit'])){
 	$address=get_safe_value($con,$_POST['address']);
 	$city=get_safe_value($con,$_POST['city']); 
 	$postcode=get_safe_value($con,$_POST['postcode']); 
-	$payment_type=get_safe_value($con,$_POST['payment_type']);
 	$user_name=$_SESSION['name'];
+	foreach($_SESSION['cart'] as $key => $val){
+		$productArr=get_product($con,'','',$key);
+		$price=$productArr[0]['price'];
+		$quantity=$val['quantity'];
+		$cart_total=$cart_total+($price*$quantity);
+	}
 	$total_price= $cart_total;
 	$payment_status='pending';
-	if($payment_type=='Bank-In'){
-		$payment_status='Success';
-	}
-	$order_status='Pending';
+	$order_status='1';
 	$added_on=date('Y-m-d h:i:s');
 	
-	mysqli_query($con, "insert into `ordered`(user_name, address, city, postcode, payment_type, total_price, payment_status, order_status, added_on) values
-	('$user_name', '$address', '$city', '$postcode', '$payment_type', '$total_price', '$payment_status', '$order_status', '$added_on')");
+	mysqli_query($con, "insert into `ordered`(user_name, address, city, postcode, total_price, payment_status, order_status, added_on) values
+	('$user_name', '$address', '$city', '$postcode', '$total_price', '$payment_status', '$order_status', '$added_on')");
 
 	$order_id=mysqli_insert_id($con);
 	
 	foreach($_SESSION['cart'] as $key => $val){
 		$productArr=get_product($con,'','',$key);
-		$pname=$productArr[0]['name'];
 		$price=$productArr[0]['price'];
 		$quantity=$val['quantity'];
+	
+		mysqli_query($con, "insert into order_detail(order_id, product_id, quantity, price) values
+		('$order_id', '$key', '$quantity', '$price')");
 	}
 	
-	mysqli_query($con, "insert into order_detail(order_id, product_id, quantity, price) values
-	('$order_id', '$key', '$quantity', '$price')");
+	
 }
 ?>
 
@@ -185,6 +183,12 @@ if(isset($_POST['submit'])){
                                         </div>
                                     </div>
 									<?php } ?>
+									
+									
+									<?php 
+									if(!isset($_POST['submit'])){ 
+									$accordion_class='accordion__hide';
+									?>
                                     <div class="<?php echo $accordion_class ?>">
                                         Address Information
                                     </div>
@@ -210,26 +214,41 @@ if(isset($_POST['submit'])){
                                                         </div>
                                                     </div>
                                                   
-                                                </div>
-                                            
+                                                </div><br/>
                                         </div>
+										<input type="submit" name="submit"/>
+											</form>
                                     </div>
-                                    <div class="<?php echo $accordion_class?>">
-                                        payment information
+									<?php } ?>
+									
+                                    <div class="accordion__hide">
+                                        payment information 
+										(Debit/Credit Card)
                                     </div>
                                     <div class="accordion__body">
                                         <div class="paymentinfo">
                                             <div class="single-method">
-												Visa/Master Card <input type="radio" name="payment_type" value="Visa/Master Card" required/>
-												&nbsp; Bank-In <input type="radio" name="payment_type" value="Bank-in" required/>
+												<form action="complete.php" method="post">
+													<script
+														src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+														data-key="<?php echo $publishable_key?>"
+														data-amount="<? $total_price ?>00"
+														data-name="Executive Education Programmes"
+														data-description="Short Courses"
+														data-image="image/logo.png"
+														data-currency="myr"
+														data-locale="auto"
+													>
+													</script>
+												<input type="hidden" value="<?= $total_price ?>00" name="stripe-amount">
+												<input type="hidden" value="OrderID: <?= $order_id ?> User Name: <?= $_SESSION['name'] ?>" name="stripe-desc">
+												</form>
                                             </div>
 											<div class="single-method">
 												
 											</div>
                                         </div>
-                                    </div>
-										<input type="submit" name="submit"/>
-									</form>
+                                    </div>	
                                 </div>
                             </div>
                         </div>

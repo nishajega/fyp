@@ -22,7 +22,7 @@ require('functions.php');
 	
 	.card a:hover {
 	   box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
-	}
+	} 
 </style>
 <body id="page-top">
   <!-- Navigation-->
@@ -53,7 +53,7 @@ require('functions.php');
         <?php echo $get_product[0]['duration'] ?> DAYS
       </h3>
       <p>Choose a date:</p>
-      <select class="form-control" id="dates" name="dates">
+      <select class="form-control" id="dates" name="date">
         <option value="<?= $get_product[0]['dates'] ?>"><?= $get_product[0]['dates'] ?></option>
         <option value="<?= $get_product[0]['dates2'] ?>"><?= $get_product[0]['dates2'] ?></option>
         <option value="<?= $get_product[0]['dates3'] ?>"><?= $get_product[0]['dates3'] ?></option>

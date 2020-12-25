@@ -501,4 +501,23 @@ function user_login(){
 		
 }
 
+function manage_cart(pid, type){
+	if(type=='update'){
+		var quantity=jQuery("#"+pid+"quantity").val();
+	}else{
+		var quantity=jQuery("#quantity").val();
+	}
+	jQuery.ajax({
+		url:'manage_cart.php',
+		type:'post',
+		data:'pid='+pid+'&quantity='+quantity+'&type='+type,
+		success:function(result){
+			if(type=='update' || type=='remove'){
+				window.location.href=window.location.href;
+			}
+			jQuery('.htc__qua').html(result);
+		}
+	});
+}
+
 

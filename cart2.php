@@ -78,11 +78,12 @@ require('functions.php');
                                     </thead>
                                     <tbody>
 									<?php
-									foreach($_SESSION['cart'] as $key => $val){
-									$productArr=get_product($con,'','',$key);
-									$pname=$productArr[0]['name'];
-									$price=$productArr[0]['price'];
-									$quantity=$val['quantity'];
+									if(isset($_SESSION['cart'])){
+										foreach($_SESSION['cart'] as $key => $val){
+										$productArr=get_product($con,'','',$key);
+										$pname=$productArr[0]['name'];
+										$price=$productArr[0]['price'];
+										$quantity=$val['quantity'];	
 									
 									?>
 				
@@ -94,7 +95,7 @@ require('functions.php');
                                             <td class="product-subtotal"> RM <?php echo $quantity*$price ?></td>
                                             <td class="product-remove"><a href="javascript:void(0)" onclick="manage_cart('<?php echo $key?>','remove')"><i class="fa fa-times"></i></a></td>
                                         </tr>
-									<?php } ?>
+									<?php } } ?>
                                     </tbody>
                                 </table>
                             </div>

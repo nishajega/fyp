@@ -158,7 +158,7 @@ if (!isset($_SESSION['name'])) {
                             <span class="price">RM<?= $total_price ?></span>
                         </div>
                         <div class="ordre-details__total">
-                            <form action="charge.php" method="post">
+                            <form action="#" method="post">
                                 <script src="https://checkout.stripe.com/checkout.js"
                                   class="stripe-button"
                                   data-key="<?php echo $stripe['publishable_key']; ?>" 

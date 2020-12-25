@@ -76,7 +76,7 @@ $id = $row['id'];
                     <li class="nav-item"><a class="nav-link js-scroll-trigger" href="index.php" style="color:black;">About</a></li>
                     <li class="nav-item"><a class="nav-link js-scroll-trigger" href="index.php" style="color:black;">Contact</a></li> 
                     <?php if(!isset($_SESSION['name'])): ?>
-                        <li class='nav-item'><a class='nav-link js-scroll-trigger' href='user/student_register.php' style='color:black;'>You are not logged in</a></li>
+                        <li class='nav-item'><a class='nav-link js-scroll-trigger' href='user/login.php' style='color:black;'>Register/Login</a></li>
                     <?php else: ?>
                         <li class='nav-item dropdown'>
 						 <a class='nav-link dropdown-toggle' href='#' style='color:black;' id='navbarDropdownPortfolio' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>

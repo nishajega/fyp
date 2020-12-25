@@ -32,12 +32,10 @@ function get_product($con,$limit='',$cat_id='',$id=''){
 	
 	$res=mysqli_query($con,$sql);
 	$data=array();
-	if($res){
-		while($row=mysqli_fetch_assoc($res)){
-			$data[]=$row;
-		}
-		return $data;
+	while($row=mysqli_fetch_assoc($res)){
+		$data[]=$row;
 	}
+		return $data;
 }
 
 ?>

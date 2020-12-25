@@ -79,8 +79,8 @@ $totalproduct=$obj->totalProduct();
                     </li>
                     <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#about" style="color:black;text-weight:bold;">ABOUT</a></li>
                     <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#contact" style="color:black;">CONTACT</a></li> 
-                    <?php if(!isset($_SESSION['name'])): ?>
-                        <li class='nav-item'><a class='nav-link js-scroll-trigger' href='user/student_register.php' style='color:black;'>You are not logged in</a></li>
+                    <?php if(!isset($_SESSION['user_id'])): ?>
+                        <li class='nav-item'><a class='nav-link js-scroll-trigger' href='user/login.php' style='color:black;'>Register/Login</a></li>
                     <?php else: ?>
                         <li class='nav-item dropdown'>
 						 <a class='nav-link dropdown-toggle' href='#' style='color:black;' id='navbarDropdownPortfolio' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>
