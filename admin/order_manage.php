@@ -26,7 +26,6 @@ $res = mysqli_query($con, $sql);
 							<th>Order ID</th>
 							<th>Order Date</th>
 							<th>Address</th>
-							<th>Payment Type</th>
 							<th>Payment Status</th>
 							<th>Order Status</th>
 							<th>Action</th>
@@ -36,17 +35,17 @@ $res = mysqli_query($con, $sql);
                     <tbody>
 					<?php
                         $res=mysqli_query($con, "select ordered.*, order_status.name as order_status
-						from ordered, order_status where order_status.id=ordered.order_status");
+						from ordered, order_status where order_status.id=ordered.order_status order by id desc");
 						while($row=mysqli_fetch_assoc($res)){
 					?>
                             <tr>
 								<th scope="row"><?php echo $row['id'] ?></th>
 								<td><?php echo $row['added_on'] ?></td>
-								<td><?php echo $row['address'] ?><br/><?php echo $row['city'] ?><br/><?php echo $row['postcode'] ?></td>
-								<td><?php echo $row['payment_type'] ?></td>
+								<td><?php echo $row['address'] ?><br/><?php echo $row['state'] ?><br/><?php echo $row['postcode'] ?></td>
 								<td><?php echo $row['payment_status'] ?></td>
 								<td><?php echo $row['order_status'] ?></td>
-                                <td><a class="btn btn-primary" href="ordermanage_detail.php?id=<?php echo $row['id']  ?>" role="button">Order Detail</a></td>
+                                <td><a class="btn btn-primary" href="ordermanage_detail.php?id=<?php echo $row['id']  ?>" role="button">Order Detail</a><br><br>
+								<a class="btn btn-primary" href="invoice.php?id=<?php echo $row['id']  ?>" role="button">PDF</a></td>
                             </tr>
                         <?php } ?>
 

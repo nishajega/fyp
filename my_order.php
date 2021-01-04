@@ -63,7 +63,6 @@ include('top.php');
                         <th scope="col">Order ID</th>
                         <th scope="col">Order Date</th>
                         <th scope="col">Address</th>
-						<th scope="col">Payment Type</th>
                         <th scope="col">Payment Status</th>
                         <th scope="col">Order Status</th>
                         <th scope="col">Action</th>
@@ -73,17 +72,20 @@ include('top.php');
 					<?php
 						$username=$_SESSION['name'];
 						$res=mysqli_query($con, "select ordered.*, order_status.name as order_status
-						from ordered, order_status where ordered.user_name='$username' and order_status.id=ordered.order_status");
+						from ordered, order_status where ordered.user_name='$username' and order_status.id=ordered.order_status order by id desc");
 						while($row=mysqli_fetch_assoc($res)){
 					?>
                         <tr>
                             <th scope="row"><?php echo $row['id'] ?></th>
                             <td><?php echo $row['added_on'] ?></td>
-                            <td><?php echo $row['address'] ?><br/><?php echo $row['city'] ?><br/><?php echo $row['postcode'] ?></td>
-                            <td><?php echo $row['payment_type'] ?></td>
+                            <td><?php echo $row['address'] ?><br/><?php echo $row['state'] ?><br/><?php echo $row['postcode'] ?></td>
                             <td><?php echo $row['payment_status'] ?></td>
                             <td><?php echo $row['order_status'] ?></td>
-                            <td><a class="btn btn-primary" href="order_detail.php?id=<?php echo $row['id']  ?>" role="button">Order Detail</a></td>
+                            <td>
+							<?php if($row['payment_status']=='Success'){ ?>
+							<a class="btn btn-primary" href="order_detail.php?id=<?php echo $row['id']  ?>" role="button">E-Cert</a><br><br>
+							<?php } ?>
+							<a class="btn btn-info" href="invoice.php?id=<?php echo $row['id']  ?>" role="button">Invoice</a></td>
                         </tr>
 					<?php } ?>
                    

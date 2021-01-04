@@ -30,7 +30,7 @@ error_reporting(0);
 	while ($row = mysqli_fetch_assoc($cat_res)) {
 		$cat_arr[] = $row;
 	}
-	$course_res = mysqli_query($con, "SELECT * from courses WHERE name LIKE '%$course_name_search%' AND status='Approve' LIMIT $offset, $total_records_per_page");
+	$course_res = mysqli_query($con, "SELECT * from courses WHERE name LIKE '%$course_name_search%' AND status='Approve' and active='1' LIMIT $offset, $total_records_per_page");
 
 
 	while ($course_row = mysqli_fetch_assoc($course_res)) {

@@ -6,6 +6,42 @@ $order_id=get_safe_value($con, $_GET['id']);
 if(isset($_POST['update_order_status'])){
 	$update_order_status=$_POST['update_order_status'];
 	mysqli_query($con, "update ordered set order_status='$update_order_status' where id='$order_id'");
+	if($update_order_status==3){
+		sentInvoice($con, $order_id);
+	}
+	if($update_order_status==2){
+		$user_order=mysqli_fetch_assoc(mysqli_query($con, "select ordered.*, users_front.name, users_front.email
+		from ordered, users_front where users_front.name=ordered.user_name and ordered.id='$order_id'"));
+		$html='Your recent order with UNITEN Executive Education Programmes
+		has been <strong>cancelled</strong>. Please contact our team for more information.
+		You can also check in the website for <strong>My Order</strong> for more information regarding your order.';
+		include('smtp/PHPMailerAutoload.php');
+		$mail=new PHPMailer(true);
+		$mail->isSMTP();
+		$mail->SMTPDebug = 1;
+		$mail->Host="smtp.gmail.com";
+		$mail->Port=587;
+		$mail->CharSet ='UTF-8';
+		$mail->SMTPSecure="tls";
+		$mail->SMTPAuth=true;
+		$mail->Username="vesha2797@gmail.com";
+		$mail->Password="Veshadoll2712";
+		$mail->SetFrom("vesha2797@gmail.com");
+		$mail->addAddress($user_order['email']);
+		$mail->IsHTML(true);
+		$mail->Subject="Invoice Details";
+		$mail->Body=$html;
+		$mail->SMTPOptions=array('ssl'=>array(
+			'verify_peer'=>false,
+			'verify_peer_name'=>false,
+			'allow_self_signed'=>false
+		));
+		if($mail->send()){
+			echo "Sent";
+		}else{
+			//echo "Error occur";
+		}
+}
 }
 ?>
 
@@ -70,7 +106,6 @@ if(isset($_POST['update_order_status'])){
 					<div>
 						<form method="post">
 							<select class="form-control" name="update_order_status"> 
-							<option>Select status</option>
 							<?php
 							$res=mysqli_query($con, "select * from order_status");
 							while($row=mysqli_fetch_assoc($res)){

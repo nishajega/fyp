@@ -64,13 +64,6 @@ if (isset($_SESSION['ADMIN_LOGIN']) && $_SESSION['ADMIN_LOGIN'] != '') {
       </li>
 
       <!-- Divider -->
-      <hr class="sidebar-divider my-0">
-
-      <li class="nav-item active">
-        <a class="nav-link" href="invoice_issued.php">
-          <span>Invoice Issued</span></a>
-      </li>
-
 	  <hr class="sidebar-divider my-0">
 
       <li class="nav-item active">
@@ -108,12 +101,12 @@ if (isset($_SESSION['ADMIN_LOGIN']) && $_SESSION['ADMIN_LOGIN'] != '') {
         <a class="nav-link" href="gen_sales.php">
           <span>Sales Report</span></a>
       </li>
-
-      <hr class="sidebar-divider my-0">
+	  
+	  <hr class="sidebar-divider my-0">
 
       <li class="nav-item active">
-        <a class="nav-link" href="gen_certificate.php">
-          <span>Generate Certificate</span></a>
+        <a class="nav-link" href="certificate.php">
+          <span>e-Certificate</span></a>
       </li>
       <!-- Sidebar Toggler (Sidebar) -->
       <div class="text-center d-none d-md-inline">

@@ -59,15 +59,16 @@ $order_id=get_safe_value($con, $_GET['id']);
 		<br><br>
 		<h3>ORDER HISTORY</h3><br>
             <table class="table">
-                <thead class="thead-light">
+                <thead class="thead-light" style="text-align:center;">
                     <tr>
+						<th scope="col">E-Certificate</th>
                         <th scope="col">Course Name</th>
                         <th scope="col">Quantity</th>
                         <th scope="col">Price</th>
 						<th scope="col">Subtotal</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody style="text-align:center;">
 					<?php
 						$username=$_SESSION['name'];
 						$res=mysqli_query($con, "select distinct(order_detail.id),order_detail.*, 
@@ -78,14 +79,15 @@ $order_id=get_safe_value($con, $_GET['id']);
 							$total_price=$total_price+($row['quantity']*$row['price']);
 					?>
                         <tr>
+							<td><a class="btn btn-primary" href="testcert.php?id=<?php echo $row['id']  ?>" role="button">E-Cert</a></td>
                             <th scope="row"><?php echo $row['name'] ?></th>
                             <td><?php echo $row['quantity'] ?></td>
                             <td><?php echo $row['price'] ?></td>
                             <td><?php echo $row['quantity']*$row['price']?></td>
-                        </tr>
+					   </tr>
 						<?php } ?>
 						<tr>
-                            <td colspan="2"></td>
+                            <td colspan="3"></td>
                             <td style="font-weight: bold;">Total Price</td>
                             <td><?php echo $total_price?></td>
                         </tr>

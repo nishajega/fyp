@@ -1,7 +1,7 @@
 <?php
 require('top.php');
 
-
+$msg='';
 if (isset($_POST['submit'])) {
 	$targetfolder = "testupload/";
 
@@ -14,14 +14,14 @@ if (isset($_POST['submit'])) {
 
 	} else {
 
-		echo "Problem uploading file";
+		echo "No file uploaded";
 	}
 
 	$categories_id = get_safe_value($con, $_POST['categories_id']);
 	$name = get_safe_value($con, $_POST['name']);
 	$description = get_safe_value($con, $_POST['description']);
 	$overview = get_safe_value($con, $_POST['overview']);
-	$audience_limit = get_safe_value($con, $_POST['audience_limit']);
+	$audience_target = get_safe_value($con, $_POST['audience_target']);
 	$duration = get_safe_value($con, $_POST['duration']);
 	$price = get_safe_value($con, $_POST['price']);
 	$dates = get_safe_value($con, $_POST['dates']);
@@ -30,13 +30,17 @@ if (isset($_POST['submit'])) {
 	$dates4 = get_safe_value($con, $_POST['dates4']);
 	$instructor_name = get_safe_value($con, $_POST['instructor_name']);
 	
+	$check= mysqli_num_rows(mysqli_query($con, "select * from courses where name='$name'"));
+	if($check>0){
+		$msg= "Course name already exists";
+	}else{
+		$query_insert =  "INSERT INTO courses(categories_id,name,description,overview,audience_target,duration,price,dates,dates2,dates3,dates4,instructor_name,status,active)" ;
+		$query_insert .="VALUES('$categories_id','$name','$description','$overview','$audience_target','$duration','$price','$dates','$dates2','$dates3','$dates4','$instructor_name','Pending','1')";
 
-	$query_insert =  "INSERT INTO courses(categories_id,name,description,overview,audience_limit,duration,price,dates,dates2,dates3,dates4,instructor_name,status,filename)" ;
-	$query_insert .="VALUES('$categories_id','$name','$description','$overview','$audience_limit','$duration','$price','$dates','$dates2','$dates3','$dates4','$instructor_name','Pending','$filename')";
+		$query_res = mysqli_query($con, $query_insert);
 
-	$query_res = mysqli_query($con, $query_insert);
-
-	echo "<h1> COURSE ADDED! </h1>";
+		echo "<h1> COURSE ADDED! </h1>";
+	}
 }
 ?>
 <style>
@@ -49,15 +53,16 @@ if (isset($_POST['submit'])) {
 <div class="container-fluid">
 
 	<!-- Page Heading -->
+	<div class="error"><?php echo $msg ?></div>
 	<h1 class="h3 mb-4 text-gray-800">Add Categories</h1>
 	<form method="post" action="" enctype="multipart/form-data" name="myForm" id="myForm">
 		<div style="color:red; margin: 5px;"></div>
 		<input type="hidden" name="instructor_name" value="<?php echo $_SESSION['instructor_name']; ?>">
 		<hr>
 		<div class="instr">
-
+		
 			<label for="categories"><b>Category</b></label>
-			<select class="form-control" name="categories_id">
+			<select class="form-control" name="categories_id" id="category">
 				<option>Select Category</option>
 				<?php
 				$res = mysqli_query($con, "select id,categories from categories order by categories asc");
@@ -75,20 +80,20 @@ if (isset($_POST['submit'])) {
 			<input type="text" placeholder="Enter Course Name" name="name" id="name" style="text-transform: uppercase"><br>
 
 			<label for="description"><b>Description</b></label>
-			<textarea placeholder="Description about the course..." rows="5" name="description" id="description"></textarea><br>
+			<textarea placeholder="Description about the course..." rows="3" name="description" id="description"></textarea><br>
 
 			<label for="overview"><b>Overview</b></label>
 			<textarea placeholder="Course Overview" name="overview" rows="5" id="overview" ></textarea><br>
 
-			<label for="audience"><b>Audience Limit</b></label>
-			<input type="integer" placeholder="Audience Limit" name="audience_limit" id="audience_limit">
+			<label for="audience"><b>Target Audience</b></label>
+			<input type="text" placeholder="Target Audience" name="audience_target" id="audience_target"><br>
 
-			<label for="price"><b>Price Suggestion</b></label>
-			<input type="integer" placeholder="Suggest a price for this course" name="price" id="price" required>
+			<label for="price"><b>Fee</b></label>
+			<input type="integer" placeholder="Suggest a fee for this course" name="price" id="price" required><br>
 
 			<label for="duration"><b>Duration</b></label>
-			<input type="integer" placeholder="Days" name="duration" id="duration" required>
-
+			<input type="integer" placeholder="Days" name="duration" id="duration" required><br>
+			
 			<label for="file"><b>Upload file here</b></label>
 			<input type="file" name="file" size="50" /><br><br>
 
@@ -116,6 +121,7 @@ if (isset($_POST['submit'])) {
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.9/jquery.validate.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.2/dist/jquery.validate.js"></script>
+<script src="multiselect/jquery.multiselect.js"></script>
 <script type="text/javascript">
 
 	// Wait for the DOM to be ready
@@ -127,7 +133,10 @@ if (isset($_POST['submit'])) {
             // The key name on the left side is the name attribute
             // of an input field. Validation rules are defined
             // on the right side
-            name: {
+            category:{
+				required: true
+			},
+			name: {
                 required: true
             },
             description: {
@@ -136,9 +145,8 @@ if (isset($_POST['submit'])) {
             overview: {
                 required: true
             },
-            audience_limit: {
-                required: true,
-                number: true
+            audience_target: {
+                required: true
             },
             price: {
                 required: true,
@@ -149,11 +157,17 @@ if (isset($_POST['submit'])) {
                 number: true,
 				min:1,
 				max:10
-            }
+            },
+			dates:{
+                required: true
+			}
 
         },
         // Specify validation error messages
         messages: {
+			category: {
+                required: "Category required"
+            },
             name: {
                 required: "Please enter course name"
             },
@@ -163,9 +177,8 @@ if (isset($_POST['submit'])) {
             overview: {
                 required: "Overview can't be blank"
             },
-            audience_limit: {
-                required: "Please Enter Audience Limit",
-                number: "Enter numeric value only"
+            audience_target: {
+                required: "Target audience info is required",
             },
             price: {
                 required: "Please Enter Price",
@@ -174,7 +187,10 @@ if (isset($_POST['submit'])) {
             duration: {
                 required: "Please Enter Duration",
                 number: "Enter numeric value only"
-            }
+            },
+			dates: {
+                required: "Please choose a date"
+			}
 		},
 		errorPlacement: function (error, element) {
             error.insertAfter(element);

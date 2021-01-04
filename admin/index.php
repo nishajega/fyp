@@ -18,6 +18,14 @@ $course_arr = array();
 while ($course_row = mysqli_fetch_assoc($course_res)) {
   $course_arr[] = $course_row;
 }
+
+$order_res=mysqli_query($con, "SELECT count(*) as total FROM ordered where order_status='1'");
+$total_order = mysqli_fetch_assoc($order_res);
+$data_order = $total_order['total'];
+
+$cert_res=mysqli_query($con, "SELECT count(*) as total, order_detail.order_id, ordered.order_status FROM cert,order_detail, ordered where cert.order_detail_id=order_detail.id and ordered.id=order_detail.order_id and ordered.order_status='3' and cert.status='0'");
+$total_cert = mysqli_fetch_assoc($cert_res);
+$data_cert = $total_cert['total'];
 ?>
 
 <!-- Begin Page Content -->
@@ -82,62 +90,83 @@ while ($course_row = mysqli_fetch_assoc($course_res)) {
         </div>
       </div>
     </div>
-  </div>
-
-  <!-- Content Row -->
-
-  <div class="row">
-
-    <!-- Area Chart -->
-    <div class="col-xl-8 col-lg-7">
-      <div class="card shadow mb-4">
-        <!-- Card Header - Dropdown -->
-        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-          <h6 class="m-0 font-weight-bold text-primary">Revenue Overview</h6>
-          <div class="dropdown no-arrow">
-            <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-            </a>
-            <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
-              <div class="dropdown-header">Dropdown Header:</div>
-              <a class="dropdown-item" href="#">Action</a>
-              <a class="dropdown-item" href="#">Another action</a>
-              <div class="dropdown-divider"></div>
-              <a class="dropdown-item" href="#">Something else here</a>
-            </div>
-          </div>
-        </div>
-        <!-- Card Body -->
+	
+	<div class="col-xl-3 col-md-6 mb-4">
+      <div class="card border-left-warning shadow h-100 py-2">
         <div class="card-body">
-          <div class="chart-area">
-            <canvas id="myAreaChart"></canvas>
+          <div class="row no-gutters align-items-center">
+            <div class="col mr-2">
+              <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Pending Orders</div>
+              <div class="h5 mb-0 font-weight-bold text-gray-800"><?php echo $data_order ?></div>
+            </div>
+            <div class="col-auto">
+              <i class="fas fa-comments fa-2x text-gray-300"></i>
+            </div>
           </div>
         </div>
       </div>
     </div>
+	
+	<div class="col-xl-3 col-md-6 mb-4">
+      <div class="card border-left-warning shadow h-100 py-2">
+        <div class="card-body">
+          <div class="row no-gutters align-items-center">
+            <div class="col mr-2">
+              <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Pending e-Cert</div>
+              <div class="h5 mb-0 font-weight-bold text-gray-800"><?php echo $data_cert ?></div>
+            </div>
+            <div class="col-auto">
+              <i class="fas fa-comments fa-2x text-gray-300"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
+  <!-- Content Row -->
+<h5> Courses Order Detail </h5>
+  <div class="row">
 
+    <!-- Area Chart -->
+	<?php
+	$sql = "SELECT * FROM courses WHERE status LIKE 'Approve'";
+	$res = mysqli_query($con, $sql);
+	while ($row = mysqli_fetch_assoc($res)) {
+		$id=$row['id'];
+	?>
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-warning shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+					<div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                         <a href="courses_order_detail.php?id=<?=$row['id'] ?>"><?php echo $row['name']; ?></a></div>
+                    <div class="h5 mb-0 font-weight-bold text-gray-800"><?php $det=mysqli_query($con, "select sum(order_detail.quantity) as quantity,order_detail.*,courses.name,ordered.order_status from order_detail, courses, ordered where order_detail.product_id=courses.id and ordered.id=order_detail.order_id and order_detail.product_id='$id' and ordered.order_status='3' ");
+              while ($order = mysqli_fetch_array($det)) {
+				  $quantity=$order[0];
+				   ?>
+				   
+			   <?php echo $quantity ?>
+			   <?php } ?></div>
+                </div>
+			<div class="col-auto">
+			RM<?php
+			echo $row['price'];
+			?>
+            </div>
+        </div>
+	</div>
+   </div>
+   </div>
+	<?php } ?>
 
     <!-- Content Column -->
     <div class="col-xl-4 col-lg-5">
 
       <!-- Project Card Example -->
       <div class="card shadow mb-4">
-        <div class="card-header py-3">
-          <h6 class="m-0 font-weight-bold text-primary">Courses</h6>
-        </div>
-        <?php
-        foreach ($course_arr as $courselst) {
-        ?>
-          <div class="card-body">
-            <h4 class="small font-weight-bold"><?php echo $courselst['name'] ?><span class="float-right"><?php echo $courselst['audience_limit'] ?>0%</span></h4>
-            <div class="progress mb-4">
-              <div class="progress-bar bg-danger" role="progressbar" style="width:<?php echo $courselst['audience_limit'] ?>0%" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
-            </div>
-          </div>
-        <?php
-        }
-        ?>
+        
       </div>
 
     </div>
@@ -152,7 +181,7 @@ while ($course_row = mysqli_fetch_assoc($course_res)) {
 
 </div>
 <!-- End of Main Content -->
-
+<br><br><br><br><br><br><br><br><br>
 <?php
 require('footer.php');
 ?>

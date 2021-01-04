@@ -20,32 +20,31 @@ if (isset($_POST['submit'])) {
 
 
     $mail = new PHPMailer();
-    $mail->IsSMTP();
+    $mail->isSMTP();
     $mail->Mailer = "smtp";
-
     $mail->SMTPDebug  = 1;
     $mail->SMTPAuth   = TRUE;
     $mail->SMTPSecure = "tls";
     $mail->Port       = 587;
     $mail->Host       = "smtp.gmail.com";
-    $mail->Username   = "amrantamrun@gmail.com";
-    $mail->Password   = "farhanhelmy12";
-
+    $mail->Username   = "vesha2797@gmail.com";
+    $mail->Password   = "Veshadoll2712";
     $mail->IsHTML(true);
-    $mail->AddAddress("farhanhlmy@gmail.com", "test");
-    $mail->SetFrom("amrantamrun@gmail.com", "meran");
-    $mail->AddReplyTo("amrantamrun@gmail.com", "meran");
+    $mail->AddAddress("vesha2797@gmail.com", "test");
+    $mail->SetFrom($email);
+    $mail->AddReplyTo($email);
     //$mail->AddCC("cc-recipient-email@domain", "cc-recipient-name");
-    $mail->Subject = "Test is Test Email sent via Gmail SMTP Server using PHP Mailer";
+    $mail->Subject = "Enquiry";
     $content = "<table><tr><td>Name:</td><td>$name</td></tr><tr><td>Email:</td><td>$email</td></tr>
-    <tr><td>Phone No.</td><td>$phone</td></tr><tr><td>Enquiry:</td><td>$enquiry</td></tr></table>";
+    <tr><td>Phone No.:</td><td>$phone</td></tr><tr><td>Enquiry:</td><td>$enquiry</td></tr></table>";
 
     $mail->MsgHTML($content);
     if (!$mail->Send()) {
         echo "Error while sending Email.";
         var_dump($mail);
     } else {
-        echo "Email sent successfully";
+        echo '<script>alert("Enquiry sent successfully! Plaese kindly wait for the reply from BDD.")</script>';
         header('Location: index.php');
     }
 }
+?>

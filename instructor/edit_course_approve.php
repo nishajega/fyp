@@ -10,12 +10,16 @@ if (isset($_GET['id']) && $_GET['id'] != '') {
         $name = $row['name'];
         $description = $row['description'];
         $overview = $row['overview'];
-        $audience_limit = $row['audience_limit'];
+        $audience_target = $row['audience_target'];
         $duration = $row['duration'];
         $price = $row['price'];
         $dates = $row['dates'];
+		$dates2 = $row['dates2'];
+		$dates3= $row['dates3'];
+		$dates4 = $row['dates4'];
         $instructor_name = $row['instructor_name'];
         $status = $row['status'];
+		$filename = $row['filename'];
     }
 }
 
@@ -57,23 +61,30 @@ if (isset($_GET['id']) && $_GET['id'] != '') {
             <label for="overview"><b>Overview</b></label>
             <textarea placeholder="Course Overview" name="overview" rows="5" id="overview" required><?php echo $overview ?></textarea>
 
-            <label for="audience"><b>Audience Limit</b></label>
-            <input type="integer" placeholder="Audience Limit" name="audience_limit" id="audience_limit" required value="<?php echo $audience_limit ?>">
+            <label for="audience"><b>Target Audience</b></label>
+            <input type="integer" placeholder="Audience Target" name="audience_target" id="audience_target" required value="<?php echo $audience_target ?>">
 
-            <label for="price"><b>Price Suggestion</b></label>
+            <label for="price"><b>Fee Suggestion</b></label>
             <input type="integer" placeholder="Suggest a price for this course" name="pricelul" id="price" required value="<?php echo $price ?>"
             <?php if($status=='Approve'){echo 'Disabled';}else{echo "";}?>>
 
             <label for="duration"><b>Duration</b></label>
             <input type="integer" placeholder="Days" name="duration" id="duration" required value="<?php echo $duration ?>">
 
-            <label for="status"><b>Status</b></label>
-            <input type="text" placeholder="Status" name="status" id="status" required value="<?php echo $status ?>">
-
-
-
-            <label for="dates"><b>Dates</b></label>
-            <input type="date" placeholder="dd/mm/yyyy" name="dates" id="dates" required value="<?php echo $dates ?>">
+			<label for="file"><b>Upload file here</b></label>
+			<input type="file" name="file" size="50" value="<?php echo $filename ?>"/><br><br>
+			
+			<label for="duration"><b>Date</b></label>
+            <input type="date" placeholder="dd/mm/yyyy" name="dates" id="dates" required value="<?php echo $dates ?>"><br>
+			
+			<label for="duration"><b>Date</b></label>
+            <input type="date" placeholder="dd/mm/yyyy" name="dates2" id="dates2" value="<?php echo $dates2 ?>"><br>
+			
+			<label for="duration"><b>Date</b></label>
+            <input type="date" placeholder="dd/mm/yyyy" name="dates3" id="dates2" value="<?php echo $dates3 ?>"><br>
+			
+			<label for="duration"><b>Date</b></label>
+            <input type="date" placeholder="dd/mm/yyyy" name="dates4" id="dates3" value="<?php echo $dates4 ?>"><br>
             <input type="hidden" value="<?= $id ?>" name="id">
             <input type="hidden" value="<?= $name ?>" name="name">
             <input type="hidden" value="<?= $price ?>" name="price">

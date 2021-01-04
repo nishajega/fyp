@@ -178,13 +178,12 @@
 .card select
 {
 	width: 150px;
-	select-align: center;
+	margin-left: 110px;
 }
 
 .card input
 {
 	width: 70px;
-	margin-left: 70px;
 	margin-right: 70px;
 }
 

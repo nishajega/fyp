@@ -2,8 +2,9 @@
 require('connection.php');
 
 error_reporting(0);
-
-$name = $_SESSION['name'];
+if(isset($_SESSION['user_login'])){
+	$name = $_SESSION['name'];
+}
 
 $query = "SELECT * from users_front WHERE name LIKE '$name'";
 $res = mysqli_query($con, $query);

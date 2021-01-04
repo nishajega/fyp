@@ -70,6 +70,7 @@ require('connection.php');
 									
 									<div class="contact-btn">
 										<button type="button" class="fv-btn" onclick="user_login()">Login</button>
+										<a class="field_error" href="forgot_password.php">Forgot Password?</a>
 									</div>
 								</form>
 								<div class="form-output login_msg">
@@ -145,6 +146,78 @@ require('connection.php');
     <script src="js/waypoints.min.js"></script>
     <!-- Main js file that contents all jQuery plugins activation. -->
     <script src="js/main.js"></script>
+	<script>
+	function user_register(){
+	jQuery('.field_error').html('');
+	var name=jQuery("#name").val();
+	var email=jQuery("#email").val();
+	var phonenum=jQuery("#phonenum").val();
+	var password=jQuery("#password").val();
+	var regex = /^\S+@\S+\.\S+$/;
+	var regex2 = /^[a-zA-Z\s]+$/; 
+	var is_error='';
+	if(regex2.test(name)== false){
+		jQuery('#name_error').html('Please enter a valid name');
+		is_error='yes';
+	}if(regex.test(email)== false || email.length<6){
+		jQuery('#email_error').html('Valid email is required');
+		is_error='yes';
+	}if(isNaN(phonenum) || phonenum.length < 10 || phonenum.length > 11){
+		jQuery('#phone_error').html('Please enter a valid phone number');
+		is_error='yes';
+	}if(password=="" || password.length<6){
+		jQuery('#password_error').html('A strong password is required');
+		is_error='yes';
+	}
+	if(is_error==''){
+		jQuery.ajax({
+			url:'register.php',
+			type:'post',
+			data:'name='+name+'&email='+email+'&phonenum='+phonenum+'&password='+password,
+			success:function(result){
+				if(result=='email_present'){
+					jQuery('#email_error').html('Email already exists');
+				}
+				if(result=='insert'){
+					jQuery('.register_msg p').html('Thank you for registration');
+				}
+			}
+		
+		});
+	}	
+}
+
+function user_login(){
+	jQuery('.field_error').html('');
+	var email=jQuery("#login_email").val();
+	var password=jQuery("#login_password").val();
+	var is_error='';
+	if(email.indexOf("@")== -1 || email.length < 6){
+		jQuery('#login_email_error').html('Email is required');
+		is_error='yes';
+	}if(password==""){
+		jQuery('#login_password_error').html('Password is required');
+		is_error='yes';
+	}
+	if(is_error==''){
+		jQuery.ajax({
+			url:'login_submit.php',
+			type:'post',
+			data:'email='+email+'&password='+password,
+			success:function(result){
+				if(result=='wrong'){
+					jQuery('.login_msg p').html('Please enter valid login details');
+				}
+				if(result=='valid'){
+					window.location.href='../index.php';
+				}
+			}
+		
+		});
+	}
+		
+}
+	</script>
 
 </body>
 

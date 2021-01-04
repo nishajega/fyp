@@ -19,12 +19,12 @@ require('functions.php');
 
     <!-- All css files are included here. -->
     <!-- Bootstrap fremwork main css -->
-    <link rel="stylesheet" href="user/css/bootstrap.min.css">
+    
     <!-- Owl Carousel min css -->
     <link rel="stylesheet" href="user/css/owl.carousel.min.css">
     <link rel="stylesheet" href="user/css/owl.theme.default.min.css">
     <!-- This core.css file contents all plugings css file. -->
-    <link rel="stylesheet" href="user/css/core.css">
+    
     <!-- Theme shortcodes/elements style -->
     <link rel="stylesheet" href="user/css/shortcode/shortcodes.css">
     <!-- Theme main style -->
@@ -37,7 +37,8 @@ require('functions.php');
 	<style>
 	h2{
 		margin-left:60px;
-		margin-top: 80px;
+		margin-top: 100px;
+		margin-bottom: 30px;
 		font-size: 40px;
 		font-weight: bold;
 	}
@@ -60,7 +61,7 @@ require('functions.php');
         <!-- Start Header Style -->
         <!-- cart-main-area start -->
         <div class="cart-main-area ptb--100 bg__white">
-		<h2>SHOPPING CART</h2>
+		<h2>YOUR CART</h2>
             <div class="container">
                 <div class="row">
                     <div class="col-md-12 col-sm-12 col-xs-12">
@@ -78,17 +79,20 @@ require('functions.php');
                                     </thead>
                                     <tbody>
 									<?php
+									$cart_total=0;
 									if(isset($_SESSION['cart'])){
 										foreach($_SESSION['cart'] as $key => $val){
 										$productArr=get_product($con,'','',$key);
 										$pname=$productArr[0]['name'];
 										$price=$productArr[0]['price'];
-										$quantity=$val['quantity'];	
+										$quantity=$val['quantity'];
+										$date=$val['date'];
+										$cart_total=$cart_total+($price*$quantity);
 									
 									?>
 				
                                         <tr>
-                                            <td class="product-name"><?php echo $pname ?></td>
+                                            <td class="product-name"><?php echo $pname ?><br><?php echo $date ?></td>
                                             <td class="product-price"><span class="amount"> RM <?php echo $price ?></span></td>
                                             <td class="product-quantity"><input type="number" id="<?php echo $key?>quantity" value="<?php echo $quantity ?>" />
 											<br/><a href="javascript:void(0)" onclick="manage_cart('<?php echo $key?>','update')">UPDATE</a></td>
@@ -96,6 +100,7 @@ require('functions.php');
                                             <td class="product-remove"><a href="javascript:void(0)" onclick="manage_cart('<?php echo $key?>','remove')"><i class="fa fa-times"></i></a></td>
                                         </tr>
 									<?php } } ?>
+									
                                     </tbody>
                                 </table>
                             </div>
@@ -128,7 +133,7 @@ require('functions.php');
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/jquery.magnific-popup.min.js"></script>
         <!-- Core theme JS-->
-        <script src="js/scripts.js"></script>
+        <script src="js/cart.js"></script>
 		
 
 </body>

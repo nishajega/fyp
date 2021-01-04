@@ -63,15 +63,17 @@
 })(jQuery); // End of use strict
 
 function manage_cart(pid, type){
+	
 	if(type=='update'){
 		var quantity=jQuery("#"+pid+"quantity").val();
 	}else{
 		var quantity=jQuery("#quantity").val();
+		var date=jQuery("#date").val();
 	}
 	jQuery.ajax({
 		url:'manage_cart.php',
 		type:'post',
-		data:'pid='+pid+'&quantity='+quantity+'&type='+type,
+		data:'pid='+pid+'&quantity='+quantity+'&date='+date+'&type='+type,
 		success:function(result){
 			if(type=='update' || type=='remove'){
 				window.location.href=window.location.href;

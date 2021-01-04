@@ -438,17 +438,17 @@ function user_register(){
 	var phonenum=jQuery("#phonenum").val();
 	var password=jQuery("#password").val();
 	var is_error='';
-	if(name==""){
-		jQuery('#name_error').html('Name is required');
+	if(name.length<3 || !isNaN(name)){
+		jQuery('#name_error').html('Please enter a valid name');
 		is_error='yes';
-	}if(email==""){
-		jQuery('#email_error').html('Email is required');
+	}if(email.indexOf("@")== -1 || email.lastIndexof(".") > 2 || email.length < 6){
+		jQuery('#email_error').html('Valid email is required');
 		is_error='yes';
-	}if(phonenum==""){
-		jQuery('#phone_error').html('Phone number is required');
+	}if(isNaN(phonenum) || phonenum.length != 10 || phonenum.length != 11){
+		jQuery('#phone_error').html('Please enter a valid phone number');
 		is_error='yes';
-	}if(password==""){
-		jQuery('#password_error').html('Password is required');
+	}if(password.length<6){
+		jQuery('#password_error').html('A strong password is required');
 		is_error='yes';
 	}
 	if(is_error==''){
@@ -475,7 +475,7 @@ function user_login(){
 	var email=jQuery("#login_email").val();
 	var password=jQuery("#login_password").val();
 	var is_error='';
-	if(email==""){
+	if(email.indexOf("@")== -1 || email.length < 6){
 		jQuery('#login_email_error').html('Email is required');
 		is_error='yes';
 	}if(password==""){

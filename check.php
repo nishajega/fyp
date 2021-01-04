@@ -14,32 +14,37 @@ $cart_total=0;
 
 if(isset($_POST['submit'])){
 	$address=get_safe_value($con,$_POST['address']);
-	$city=get_safe_value($con,$_POST['city']); 
+	$state=get_safe_value($con,$_POST['state']); 
 	$postcode=get_safe_value($con,$_POST['postcode']); 
 	$user_name=$_SESSION['name'];
 	foreach($_SESSION['cart'] as $key => $val){
 		$productArr=get_product($con,'','',$key);
 		$price=$productArr[0]['price'];
 		$quantity=$val['quantity'];
+		$date=$val['date'];
 		$cart_total=$cart_total+($price*$quantity);
 	}
 	$total_price= $cart_total;
 	$payment_status='pending';
+	$token='';
 	$order_status='1';
 	$added_on=date('Y-m-d h:i:s');
 	
-	mysqli_query($con, "insert into `ordered`(user_name, address, city, postcode, total_price, payment_status, order_status, added_on) values
-	('$user_name', '$address', '$city', '$postcode', '$total_price', '$payment_status', '$order_status', '$added_on')");
+	echo "insert into `ordered`(user_name, address, city, postcode, total_price, payment_status, token, order_status, added_on) values
+	('$user_name', '$address', '$state', '$postcode', '$total_price', '$payment_status','$token', '$order_status', '$added_on')";
+	mysqli_query($con, "insert into `ordered`(user_name, address, state, postcode, total_price, payment_status, token, order_status, added_on) values
+	('$user_name', '$address', '$state', '$postcode', '$total_price', '$payment_status','$token', '$order_status', '$added_on')");
 
 	$order_id=mysqli_insert_id($con);
 	
 	foreach($_SESSION['cart'] as $key => $val){
 		$productArr=get_product($con,'','',$key);
 		$price=$productArr[0]['price'];
+		$date=$val['date'];
 		$quantity=$val['quantity'];
-	
-		mysqli_query($con, "insert into order_detail(order_id, product_id, quantity, price) values
-		('$order_id', '$key', '$quantity', '$price')");
+		
+		mysqli_query($con, "insert into order_detail(order_id, product_id, date, quantity, price) values
+		('$order_id', '$key','$date', '$quantity', '$price')");
 	}
 	
 	
@@ -92,7 +97,6 @@ if(isset($_POST['submit'])){
 	.field_error{
 		color:red;
 	}
-	
 	</style>
     <!-- Modernizr JS -->
     <script src="user/js/vendor/modernizr-3.5.0.min.js"></script>
@@ -184,39 +188,57 @@ if(isset($_POST['submit'])){
                                     </div>
 									<?php } ?>
 									
-									
-									<?php 
+									<?php
 									if(!isset($_POST['submit'])){ 
-									$accordion_class='accordion__hide';
+									$accordion_class='accordion__hide'
 									?>
-                                    <div class="<?php echo $accordion_class ?>">
+                                    <div class="<?php echo $accordion_class?>">
                                         Address Information
                                     </div>
                                     <div class="accordion__body">
                                         <div class="bilinfo">
-                                            <form method="post">
+                                            <form method="post" name="myForm" id="myForm">
                                                 <div class="row">
                                         
                                                     <div class="col-md-12">
                                                         <div class="single-input">
-                                                            <input type="text" name="address" placeholder="Address" required>
+                                                            <input type="text" name="address" id="address" placeholder="Address" required>
                                                         </div>
                                                     </div>
                                                    
                                                     <div class="col-md-6">
                                                         <div class="single-input">
-                                                            <input type="text" name="city" placeholder="State" required>
+                                                            
+															<select class="form-control" placeholder="State" id="state" name="state" required>
+															<option value="">Select State</option>
+																<option value="Johor">Johor</option>
+																<option value="Kedah">Kedah</option>
+																<option value="Kelantan">Kelantan</option>
+																<option value="Kuala Lumpur">Kuala Lumpur</option>
+																<option value="Labuan">Labuan</option>
+																<option value="Melaka">Melaka</option>
+																<option value="Negeri Sembilan">Negeri Sembilan</option>
+																<option value="Pahang">Pahang</option>
+																<option value="Perak">Perak</option>
+																<option value="Pulau Pinang">Pulau Pinang</option>
+																<option value="Perlis">Perlis</option>
+																<option value="Putrajaya">Putrajaya</option>
+																<option value="Selangor">Selangor</option>
+																<option value="Sabah">Sabah</option>
+																<option value="Sarawak">Sarawak</option>
+																<option value="Terengganu">Terengganu</option>
+															  </select><br/>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6">
                                                         <div class="single-input">
-                                                            <input type="int" name="postcode" placeholder="Post code/ zip" required>
+                                                            <input type="number" name="postcode" placeholder="Post code/ zip" id="postcode" pattern="[-+]?[0-9]" minlength="5" maxlength="5"required>
                                                         </div>
                                                     </div>
                                                   
                                                 </div><br/>
                                         </div>
-										<input type="submit" name="submit"/>
+										<input type="submit" name="submit" class="fv-btn"/>
 											</form>
                                     </div>
 									<?php } ?>
@@ -232,7 +254,7 @@ if(isset($_POST['submit'])){
 													<script
 														src="https://checkout.stripe.com/checkout.js" class="stripe-button"
 														data-key="<?php echo $publishable_key?>"
-														data-amount="<? $total_price ?>00"
+														data-amount="<?= $total_price ?>00"
 														data-name="Executive Education Programmes"
 														data-description="Short Courses"
 														data-image="image/logo.png"
@@ -248,7 +270,7 @@ if(isset($_POST['submit'])){
 												
 											</div>
                                         </div>
-                                    </div>	
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -264,11 +286,13 @@ if(isset($_POST['submit'])){
 									$pname=$productArr[0]['name'];
 									$price=$productArr[0]['price'];
 									$quantity=$val['quantity'];
+									$date=$val['date'];
 									$cart_total=$cart_total+($price*$quantity);
 								?>
                                 <div class="single-item">
                                     <div class="single-item__content">
-                                        <a href="#"><?php echo $pname ?></a>
+                                        <a href="#"><?php echo $pname ?></a><br>
+										<a href="#"><?php echo $date ?></a>
                                         <span class="price">RM <?php echo $price*$quantity ?></span>
                                     </div>
                                     <div class="single-item__remove">
@@ -277,11 +301,13 @@ if(isset($_POST['submit'])){
                                 </div>
 									<?php } ?>
                             </div>
+							
                             <div class="ordre-details__total">
                                 <h5>Total</h5>
                                 <span class="price">RM <?php echo $cart_total ?></span>
                             </div>
                         </div>
+						
                     </div>
                 </div>
             </div>
@@ -297,6 +323,7 @@ if(isset($_POST['submit'])){
     <script src="js/owl.carousel.min.js"></script>
     <!-- Waypoints.min.js. -->
     <script src="js/waypoints.min.js"></script>
+	
     <!-- Main js file that contents all jQuery plugins activation. -->
     <script src="js/main.js"></script>
 	<script>
@@ -306,18 +333,20 @@ if(isset($_POST['submit'])){
 	var email=jQuery("#email").val();
 	var phonenum=jQuery("#phonenum").val();
 	var password=jQuery("#password").val();
+	var regex = /^\S+@\S+\.\S+$/;
+	var regex2 = /^[a-zA-Z\s]+$/; 
 	var is_error='';
-	if(name==""){
-		jQuery('#name_error').html('Name is required');
+	if(regex2.test(name)== false){
+		jQuery('#name_error').html('Please enter a valid name');
 		is_error='yes';
-	}if(email==""){
-		jQuery('#email_error').html('Email is required');
+	}if(regex.test(email)== false || email.length<6){
+		jQuery('#email_error').html('Valid email is required');
 		is_error='yes';
-	}if(phonenum==""){
-		jQuery('#phone_error').html('Phone number is required');
+	}if(isNaN(phonenum) || phonenum.length < 10 || phonenum.length > 11){
+		jQuery('#phone_error').html('Please enter a valid phone number');
 		is_error='yes';
-	}if(password==""){
-		jQuery('#password_error').html('Password is required');
+	}if(password=="" || password.length<6){
+		jQuery('#password_error').html('A strong password is required');
 		is_error='yes';
 	}
 	if(is_error==''){
@@ -335,8 +364,7 @@ if(isset($_POST['submit'])){
 			}
 		
 		});
-	}
-		
+	}	
 }
 
 function user_login(){
@@ -344,7 +372,7 @@ function user_login(){
 	var email=jQuery("#login_email").val();
 	var password=jQuery("#login_password").val();
 	var is_error='';
-	if(email==""){
+	if(email.indexOf("@")== -1 || email.length < 6){
 		jQuery('#login_email_error').html('Email is required');
 		is_error='yes';
 	}if(password==""){
@@ -361,7 +389,7 @@ function user_login(){
 					jQuery('.login_msg p').html('Please enter valid login details');
 				}
 				if(result=='valid'){
-					window.location.href=window.location.href;
+					window.location.href='check.php';
 				}
 			}
 		
@@ -369,7 +397,58 @@ function user_login(){
 	}
 		
 }
+
 </script>
+
+<script>
+	$.validator.addMethod("noSpace", function(value, element){
+		return value == '' || value.trim().length != 0
+	}, "Space are not allowed");
+	// Wait for the DOM to be ready
+    // Initialize form validation on the registration form.
+    // It has the name attribute "registration"
+    $("#myForm").validate({
+        // Specify validation rules
+        rules: {
+            // The key name on the left side is the name attribute
+            // of an input field. Validation rules are defined
+            // on the right side
+            address: {
+                required: true,
+				minlength:10,
+				noSpace: true
+            },
+            postcode: {
+                required: true,
+				number:true,
+				length:5,
+				noSpace: true
+            }
+
+        },
+        // Specify validation error messages
+        messages: {
+            address: {
+                required: "Address is required",
+				minlength: "Address is too short. Provide a valid address"
+            },
+            postcode: {
+                required: "Postcode is required",
+				number:"Enter numeric value only",
+				length:"Enter valid postcode"
+            }
+		},
+		errorPlacement: function (error, element) {
+            error.insertAfter(element);
+        },
+        // Make sure the form is submitted to the destination defined
+        // in the "action" attribute of the form when valid
+        submitHandler: function (form) {
+            form.submit();
+        }
+	});
+
+
 </body>
 
 </html>

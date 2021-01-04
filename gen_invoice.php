@@ -2,6 +2,8 @@
 require dirname(__DIR__) . DIRECTORY_SEPARATOR . "eepms\invoicr\invoicr.php";
 
 require('connection.php');
+
+
 $id = $_GET['id'];
 // $stmt = "SELECT a.name as username, a.email as useremail, a.phonenum as phonenum, b.idinvoice as invoiceid, b.item as itemname,";
 // $stmt .= "b.totalprice as totalprice, b.quantity as quantity FROM users_front a INNER JOIN invoice b ON a.id=b.userID WHERE a.id=$id";
@@ -52,7 +54,7 @@ $invoice->set("company", [
   ]);
   
   // 2D - SHIP TO
-  $invoice->set("shipto", [
+  $invoice->set("shipfrom", [
     "Universiti Tenaga Nasional",
     "Jalan Ikram-Uniten", 
     "Kajang, 43000",

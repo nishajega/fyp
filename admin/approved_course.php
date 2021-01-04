@@ -11,7 +11,7 @@ if (isset($_GET['type']) && $_GET['type'] != '') {
     } else {
       $status = '0';
     }
-    $update_status = "update courses set status='$status' where id='$id'";
+    $update_status = "update courses set active='$status' where id='$id'";
     mysqli_query($con, $update_status);
   }
 
@@ -47,8 +47,8 @@ $res = mysqli_query($con, $sql);
               <th>Categories</th>
               <th>Name</th>
               <th>Price</th>
-              <th>Dates</th>
-              <th>Status</th>
+              <th>Instructor</th>
+			  <th>Action</th>
 
 
             </tr>
@@ -63,10 +63,22 @@ $res = mysqli_query($con, $sql);
                 <td><?php echo $i; ?></td>
                 <td><?php echo $row['id']; ?></td>
                 <td><?php echo $row['categories_id']; ?></td>
-                <td><?php echo $row['name']; ?></td>
+                <td><a href="course_list.php?id=<?=$row['id'] ?>"><?php echo $row['name']; ?></a></td>
                 <td><?php echo $row['price']; ?></td>
-                <td><?php echo $row['dates']; ?></td>
-                <td><?php echo $row['status']; ?></td>
+                <td><?php echo $row['instructor_name']; ?></td>
+                
+				<td>
+				<?php
+					  if($row['active']==1){
+						  echo "<a href='?type=status&operation=deactive&id=".$row['id']."'><span class='btn btn-info'>Active</span></a>&nbsp;";
+					  }else{
+						  echo "<a href='?type=status&operation=active&id=".$row['id']."'><span class='btn btn-warning'>Deactive</span></a>&nbsp;";
+					  }
+					  echo "<a href='add_edit_course.php?id=".$row['id']."'><span class='btn btn-primary'>Edit</span></a>&nbsp;";
+					  echo "<a href='?type=delete&id=".$row['id']."' onclick='return confirm_delete()'><span class='btn btn-danger'>Delete</span></a>";
+					  
+					?>
+				</td>
 
               </tr>
             <?php } ?>
@@ -83,7 +95,11 @@ $res = mysqli_query($con, $sql);
 
 </div>
 <!-- End of Main Content -->
-
+ <script type="text/javascript">
+	function confirm_delete(){
+		return confirm('Are you sure you want to delete this category?');
+		}
+</script>
 
 <?php
 require('footer.php');

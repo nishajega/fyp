@@ -2,13 +2,15 @@
 require('connection.php');
 require('addcart_inc.php');
 
-$name = $_SESSION['name'];
+if(isset($_SESSION['user_login'])){
+	$name = $_SESSION['name'];
 
 $query = "SELECT * from users_front WHERE name LIKE '$name'";
 $res = mysqli_query($con, $query);
 $row = mysqli_fetch_assoc($res);
 
 $id = $row['id'];
+}
 
 $obj=new add_to_cart();
 $totalproduct=$obj->totalProduct();
@@ -28,7 +30,7 @@ $totalproduct=$obj->totalProduct();
 
   <!-- Bootstrap core CSS -->
   <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <!-- Custom styles for this template -->
   <link href="css/modern-business.css" rel="stylesheet">
   <link href="css/style.css" rel="stylesheet">
@@ -64,27 +66,27 @@ $totalproduct=$obj->totalProduct();
   <!-- Navigation-->
     <nav class="navbar navbar-expand-lg navbar-dark fixed-top py-3" id="mainNav">
         <div class="container">
-            <a class="navbar-brand js-scroll-trigger" href="#page-top" style="color:black;">UNITEN</a><button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+            <a class="navbar-brand js-scroll-trigger" href="#page-top" style="color:black;font-weight:bold;">UNITEN</a><button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ml-auto my-2 my-lg-0">
-                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#page-top" style="color:black;">HOME</a></li>
+                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#page-top" style="color:black;font-weight:bold;">Home</a></li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" style="color:black;" id="navbarDropdownPortfolio" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            COURSE
+                        <a class="nav-link dropdown-toggle" href="#" style="color:black;font-weight:bold;" id="navbarDropdownPortfolio" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Course
                         </a>
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownPortfolio">
                             <a class="dropdown-item" href="course.php">Show Courses</a>
 
                         </div>
                     </li>
-                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#about" style="color:black;text-weight:bold;">ABOUT</a></li>
-                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#contact" style="color:black;">CONTACT</a></li> 
+                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#about" style="color:black;font-weight:bold;">About</a></li>
+                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#contact" style="color:black;font-weight:bold;">Contact</a></li> 
                     <?php if(!isset($_SESSION['user_id'])): ?>
-                        <li class='nav-item'><a class='nav-link js-scroll-trigger' href='user/login.php' style='color:black;'>Register/Login</a></li>
+                        <li class='nav-item'><a class='nav-link js-scroll-trigger' href='user/login.php' style='color:black;font-weight:bold;'>Register/Login</a></li>
                     <?php else: ?>
                         <li class='nav-item dropdown'>
 						 <a class='nav-link dropdown-toggle' href='#' style='color:black;' id='navbarDropdownPortfolio' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>
-						 Welcome   <?= $_SESSION['name'] ?> !!!
+						 Hi <?= $_SESSION['name'] ?> !
 						 </a>
 						 <div class='dropdown-menu dropdown-menu-right' aria-labelledby='navbarDropdownPortfolio'>
                             <a class='dropdown-item' href='invoice_history.php?id=<?= $id ?>'>Purchase History</a>
@@ -95,7 +97,7 @@ $totalproduct=$obj->totalProduct();
 
                     <li class="nav-item">
                         <div class="htc__shopping__cart">
-							<a href="#"><i class="fa fa-shopping-cart" style="color:black"></i></a>
+							<a href="#"><i class="fa fa-shopping-cart" style="font-size:24px"></i></a>
 							<a href="cart2.php"><span class="htc__qua"><?php echo $totalproduct ?></span></a>
                         </div>
                        

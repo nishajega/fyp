@@ -21,8 +21,8 @@ if(isset($_POST['submit'])){
 		$msg="Verification link has been sent to <strong>$email</strong>.";
 		
 		$mailHtml="Please confirm your account registration by clicking the link below: <a href='
-		http://localhost/fyp/instructor/check.php?id=$verification_id'>
-		http://localhost/fyp/instructor/check.php?id=$verification_id</a>";
+		http://localhost/eepms/instructor/check.php?id=$verification_id'>
+		http://localhost/eepms/instructor/check.php?id=$verification_id</a>";
 		
 		smtp_mailer($email,'Account Verification',$mailHtml);	
 	}
@@ -41,9 +41,9 @@ function smtp_mailer($to,$subject, $msg){
 	$mail->Port = 587; 
 	$mail->IsHTML(true);
 	$mail->CharSet = 'UTF-8';
-	$mail->Username = "amrantamrun@gmail.com";
-	$mail->Password = "farhanhelmy12";
-	$mail->SetFrom("amrantamrun@gmail.com");
+	$mail->Username = "vesha2797@gmail.com";
+	$mail->Password = "Veshadoll2712";
+	$mail->SetFrom("vesha2797@gmail.com");
 	$mail->Subject = $subject;
 	$mail->Body =$msg;
 	$mail->AddAddress($to);

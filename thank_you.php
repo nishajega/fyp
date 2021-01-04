@@ -1,3 +1,8 @@
+<?php
+require('connection.php');
+unset($_SESSION['cart']);
+?>
+
 <!doctype html>
 <html class="no-js" lang="en">
 <head>
@@ -7,13 +12,13 @@
 </head>
 
 <div class="jumbotron text-center">
-  <h1 class="display-3">Thank You!</h1>
-  <p class="lead">Please email to <strong>nishajeg27@gmail.com</strong> your transaction slip with your personal and order details.</p>
+  <h1 class="display-3">Payment Succesful!</h1>
+  <p class="lead">Thank you! Please check your order details in the purchase history.</p>
   <hr>
   <p>
     Having trouble? <a href="mailto: nishajeg27@gmail.com">Contact us</a>
   </p>
   <p class="lead">
-    <a class="btn btn-primary btn-sm" href="index.php" role="button">Continue to homepage</a>
+    <a class="btn btn-primary btn-sm" href="my_order.php" role="button">Continue to order page</a>
   </p>
 </div>
