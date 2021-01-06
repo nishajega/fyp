@@ -1,7 +1,9 @@
 <?php
 require('top.php');
 $id=get_safe_value($con, $_GET['id']);
-$res=mysqli_query($con, "select sum(order_detail.quantity) as quantity,order_detail.*,courses.name,ordered.order_status from order_detail, courses, ordered where order_detail.product_id=courses.id and ordered.id=order_detail.order_id and order_detail.product_id='$id' and ordered.order_status='3' group by order_detail.date");
+$res=mysqli_query($con, "select sum(order_detail.quantity) as quantity,order_detail.*,
+courses.name,ordered.order_status from order_detail, courses, ordered where order_detail.product_id=courses.id 
+and ordered.id=order_detail.order_id and order_detail.product_id='$id' and ordered.order_status='3' group by order_detail.date");
 
 ?>
 

@@ -248,7 +248,7 @@ if(!isset($_SESSION['IS_LOGIN'])){
 					<div class="col mr-2">
                         <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
                          <a href="courses_order_detail.php?id=<?=$row['id'] ?>"><?php echo $row['name']; ?></a></div>
-                    <div class="h5 mb-0 font-weight-bold text-gray-800"><?php $det=mysqli_query($con, "select sum(quantity) as total,order_detail.*,courses.name from order_detail, courses where order_detail.product_id=courses.id and order_detail.product_id='$id'");
+                    <div class="h5 mb-0 font-weight-bold text-gray-800"><?php $det=mysqli_query($con, "select sum(order_detail.quantity) as quantity,order_detail.*,courses.name,ordered.order_status from order_detail, courses, ordered where order_detail.product_id=courses.id and ordered.id=order_detail.order_id and order_detail.product_id='$id' and ordered.order_status='3' ");
               while ($order = mysqli_fetch_array($det)) {
 				  $quantity=$order[0];
 				   ?>

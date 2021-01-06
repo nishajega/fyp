@@ -98,7 +98,7 @@ if (isset($_SESSION['ADMIN_LOGIN']) && $_SESSION['ADMIN_LOGIN'] != '') {
       <hr class="sidebar-divider my-0">
 
       <li class="nav-item active">
-        <a class="nav-link" href="gen_sales.php">
+        <a class="nav-link" href="sales.php">
           <span>Sales Report</span></a>
       </li>
 	  

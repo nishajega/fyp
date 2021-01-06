@@ -69,6 +69,9 @@
 			text-align: center;
 			background-color: white;
 		}
+		.field_error{
+			color:red;
+		}
 		
 	</style>
     </head>
@@ -78,10 +81,14 @@
 	<h3>Hello, INSTRUCTOR!</h3>
 	<h2>LOG IN HERE</h2>
 	<hr>
-	
+	 <div>
+		<span class="field_error" id="email_error"></span>
     	<input type="email" placeholder="Enter Email" name="email" id="email" required>
-
+	</div>
+	<div>
+		<span class="field_error" id="password_error"></span>
     	<input type="password" placeholder="Enter Password" name="password" id="password" required>
+		</div>
 		<div class="message"></div>
 	<hr>
 	<button type="button" onclick="login_now()">LOG IN</button>
@@ -91,9 +98,19 @@
 	
 	<script>
 	function login_now(){
+		jQuery('.field_error').html('');
 		var email=jQuery('#email').val();
 		var password=jQuery('#password').val();
-		
+		var regex = /^\S+@\S+\.\S+$/;
+		var is_error='';
+		if(regex.test(email)== false || email==""){
+		jQuery('#email_error').html('Valid email is required');
+		is_error='yes';
+		}if(password==""){
+		jQuery('#password_error').html('Password is required');
+		is_error='yes';
+		}
+		if(is_error==''){
 		jQuery.ajax({
 			url:'login_check.php',
 			type:'post',
@@ -105,6 +122,7 @@
 				jQuery('.message').html(result);
 			}
 		});
+	}
 	}
 	</script>
 

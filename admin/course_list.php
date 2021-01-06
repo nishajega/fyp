@@ -1,7 +1,9 @@
 <?php
 require('top.php');
 $id=get_safe_value($con, $_GET['id']);
-$res=mysqli_query($con, "select cert.*,courses.name from cert, courses where cert.course=courses.id and cert.course='$id' order by date");
+$res=mysqli_query($con, "select cert.*,courses.name,ordered.order_status, order_detail.order_id from 
+cert, courses, ordered, order_detail where cert.course='$id' and cert.course=courses.id and cert.order_detail_id=order_detail.id 
+and order_detail.order_id=ordered.id and ordered.order_status='3' group by cert.date");
 
 ?>
 
@@ -15,7 +17,7 @@ $res=mysqli_query($con, "select cert.*,courses.name from cert, courses where cer
     <!-- DataTales Example -->
     <div class="card shadow mb-4">
         <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">List of Registered Users</h6>
+            <h6 class="m-0 font-weight-bold text-primary">List of Registered Users (Only the people filled out the certification form)</h6>
         </div>
         <div class="card-body">
             <div class="table-responsive">

@@ -125,7 +125,7 @@ $data_cert = $total_cert['total'];
   </div>
 
   <!-- Content Row -->
-<h5> Courses Order Detail </h5>
+<h5>Number of Users Purchased the Course </h5>
   <div class="row">
 
     <!-- Area Chart -->

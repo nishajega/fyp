@@ -1,6 +1,7 @@
 <?php
 require('top.php');
-$res=mysqli_query($con, "select cert.*,courses.name,ordered.order_status, order_detail.order_id from cert, courses, ordered, order_detail where cert.course=courses.id and cert.order_detail_id=order_detail.id 
+$res=mysqli_query($con, "select cert.*,courses.name,ordered.order_status, order_detail.order_id from cert, 
+courses, ordered, order_detail where cert.course=courses.id and cert.order_detail_id=order_detail.id 
 and order_detail.order_id=ordered.id and ordered.order_status='3' order by cert.id desc");
 
 ?>
