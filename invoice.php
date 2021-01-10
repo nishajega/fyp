@@ -32,8 +32,8 @@ $html.='<div id="invoice">
    <table>
       <thead>
          <tr>
-            <th class="product-thumbnail">Course Name</th>
-            <th class="product-name">Qty</th>
+            <th class="product-name">Course Name</th>
+            <th class="product-thumbnail">Qty</th>
             <th class="product-price">Price</th>
             <th class="product-price">Total Price</th>
          </tr>

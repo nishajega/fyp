@@ -20,7 +20,6 @@ if(isset($_GET['id']) && $_GET['id']!=''){
 		$dates4 = $row['dates4'];
         $instructor_name = $row['instructor_name'];
         $status = $row['status'];
-		$filename = $row['filename'];
 	}else{
 		?>
 		<script type="text/javascript">
@@ -31,27 +30,27 @@ if(isset($_GET['id']) && $_GET['id']!=''){
 }
 
 if(isset($_POST['submit'])){
-	$id=get_safe_value($con,$_GET['id']);
-    $categories_id = $_POST['categories_id'];
-    $name = $_POST['name'];
-    $description = $_POST['description'];
-    $overview = $_POST['overview'];
-    $audience_target = $_POST['audience_target'];
-    $duration = $_POST['duration'];
-    $price = $_POST['price'];
-    $dates = $_POST['dates'];
-    $dates2 = $_POST['dates2'];
-	$dates3= $_POST['dates3'];
-	$dates4 = $_POST['dates4'];
-	$filename = $_POST['filename'];
 	
-	$query =  "UPDATE courses SET categories_id=$categories_id,name='$name',description='$description',
-	overview='$overview',audience_target='$audience_target',duration='$duration',price=$price,dates='$dates',dates2='$dates2',dates3='$dates3',
-    dates4='$dates4',filename='$filename' WHERE id='$id'";
+	$categories_id = get_safe_value($con, $_POST['categories_id']);
+    $name = get_safe_value($con, $_POST['name']);
+    $description = get_safe_value($con, $_POST['description']);
+    $overview = get_safe_value($con, $_POST['overview']);
+    $audience_limit = get_safe_value($con, $_POST['audience_target']);
+    $duration = get_safe_value($con, $_POST['duration']);
+    $price = get_safe_value($con, $_POST['price']);
+    $dates = get_safe_value($con, $_POST['dates']);
+	$dates2 = get_safe_value($con, $_POST['dates2']);
+	$dates3 = get_safe_value($con, $_POST['dates3']);
+	$dates4 = get_safe_value($con, $_POST['dates4']);
 	
-	mysqli_query($con, $query);
+	if (isset($_GET['id']) && $_GET['id'] != '') {
+		$query =  "UPDATE courses SET categories_id='$categories_id',name='$name',description='$description',
+		overview='$overview',audience_target='$audience_target',duration='$duration',price='$price',dates='$dates',dates2='$dates2',dates3='$dates3',
+		dates4='$dates4' WHERE id='$id'";
+		mysqli_query($con, $query);
 	
 	}
+}
 
 
 ?>
@@ -91,14 +90,11 @@ if(isset($_POST['submit'])){
             <label for="audience"><b>Target Audience</b></label>
             <input type="text" placeholder="Target Audience" name="audience_target" id="audience_target" required value="<?php echo $audience_target ?>">
 
-            <label for="price"><b>Price Suggestion</b></label>
-            <input type="integer" placeholder="Suggest a price for this course" name="price" id="price" required value="<?php echo $price ?>">
+            <label for="price"><b>Fee</b></label>
+            <input type="integer" placeholder="Fee for this course" name="price" id="price" required value="<?php echo $price ?>">
 
             <label for="duration"><b>Duration</b></label>
             <input type="integer" placeholder="Days" name="duration" id="duration" required value="<?php echo $duration ?>">
-
-			<label for="file"><b>Upload file here</b></label>
-			<input type="file" name="filename" size="50" value="<?php echo $filename ?>"/><br><br>
 			
 			<label for="duration"><b>Date</b></label>
             <input type="date" placeholder="dd/mm/yyyy" name="dates" id="dates" required value="<?php echo $dates ?>"><br>
@@ -110,7 +106,8 @@ if(isset($_POST['submit'])){
             <input type="date" placeholder="dd/mm/yyyy" name="dates3" id="dates2" value="<?php echo $dates3 ?>"><br>
 			
 			<label for="duration"><b>Date</b></label>
-            <input type="date" placeholder="dd/mm/yyyy" name="dates4" id="dates3" value="<?php echo $dates4 ?>"><br>
+            <input type="date" placeholder="dd/mm/yyyy" name="dates4" id="dates3" value="<?php echo $dates4 ?>"><br><br>
+			
 			
 			<button type="submit" name="submit" style="text-align: center;"class="btn btn-success btn-icon-split">               	
 				<span class="text">Submit</span> 

@@ -57,7 +57,7 @@ $order_id=get_safe_value($con, $_GET['id']);
     <main role="main" class="flex-shrink-0">
         <div class="container">
 		<br><br>
-		<h3>ORDER HISTORY</h3><br>
+		<h3>My Courses</h3><br>
             <table class="table">
                 <thead class="thead-light" style="text-align:center;">
                     <tr>

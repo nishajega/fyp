@@ -26,7 +26,7 @@ $totalproduct=$obj->totalProduct();
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>Modern Business - Start Bootstrap Template</title>
+  <title>UNITEN EEProMS</title>
 
   <!-- Bootstrap core CSS -->
   <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -66,21 +66,13 @@ $totalproduct=$obj->totalProduct();
   <!-- Navigation-->
     <nav class="navbar navbar-expand-lg navbar-dark fixed-top py-3" id="mainNav">
         <div class="container">
-            <a class="navbar-brand js-scroll-trigger" href="#page-top" style="color:black;font-weight:bold;">UNITEN</a><button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+            <a class="navbar-brand js-scroll-trigger" href="index.php" style="color:black;font-weight:bold;">UNITEN</a><button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ml-auto my-2 my-lg-0">
-                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#page-top" style="color:black;font-weight:bold;">Home</a></li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" style="color:black;font-weight:bold;" id="navbarDropdownPortfolio" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Course
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownPortfolio">
-                            <a class="dropdown-item" href="course.php">Show Courses</a>
-
-                        </div>
-                    </li>
-                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#about" style="color:black;font-weight:bold;">About</a></li>
-                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#contact" style="color:black;font-weight:bold;">Contact</a></li> 
+                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="index.php" style="color:black;font-weight:bold;">Home</a></li>
+                  <li class="nav-item"><a class="nav-link js-scroll-trigger" href="course2.php" style="color:black;font-weight:bold;">Course</a></li>
+                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="index.php" style="color:black;font-weight:bold;">About</a></li>
+                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="index.php" style="color:black;font-weight:bold;">Contact</a></li> 
                     <?php if(!isset($_SESSION['user_id'])): ?>
                         <li class='nav-item'><a class='nav-link js-scroll-trigger' href='user/login.php' style='color:black;font-weight:bold;'>Register/Login</a></li>
                     <?php else: ?>
@@ -89,7 +81,8 @@ $totalproduct=$obj->totalProduct();
 						 Hi <?= $_SESSION['name'] ?> !
 						 </a>
 						 <div class='dropdown-menu dropdown-menu-right' aria-labelledby='navbarDropdownPortfolio'>
-                            <a class='dropdown-item' href='invoice_history.php?id=<?= $id ?>'>Purchase History</a>
+                            <a class='dropdown-item' href='my_order.php'>My Registrations</a>
+							<a class='dropdown-item' href='user/profile.php'>Edit Profile</a>
 							<a class='dropdown-item' href='logout.php' style="color:black;">Logout</a>
                         </div>
 						</li>

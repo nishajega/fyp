@@ -10,13 +10,13 @@ $res = mysqli_query($con, $sql);
 <div class="container-fluid">
 
     <!-- Page Heading -->
-    <h1 class="h3 mb-2 text-gray-800">ORDERS</h1>
+    <h1 class="h3 mb-2 text-gray-800">REGISTRATIONS</h1>
 
 
     <!-- DataTales Example -->
     <div class="card shadow mb-4">
         <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">List of Instructor</h6>
+            <h6 class="m-0 font-weight-bold text-primary">List of Registration(s)</h6>
         </div>
         <div class="card-body">
             <div class="table-responsive">
@@ -44,7 +44,7 @@ $res = mysqli_query($con, $sql);
 								<td><?php echo $row['address'] ?><br/><?php echo $row['state'] ?><br/><?php echo $row['postcode'] ?></td>
 								<td><?php echo $row['payment_status'] ?></td>
 								<td><?php echo $row['order_status'] ?></td>
-                                <td><a class="btn btn-primary" href="ordermanage_detail.php?id=<?php echo $row['id']  ?>" role="button">Order Detail</a><br><br>
+                                <td><a class="btn btn-primary" href="ordermanage_detail.php?id=<?php echo $row['id']  ?>" role="button">Detail</a><br><br>
 								<a class="btn btn-primary" href="invoice.php?id=<?php echo $row['id']  ?>" role="button">PDF</a></td>
                             </tr>
                         <?php } ?>

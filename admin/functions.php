@@ -573,7 +573,7 @@ $html='<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://ww
 	$mail->SetFrom("vesha2797@gmail.com");
 	$mail->addAddress($user_order['email']);
 	$mail->IsHTML(true);
-	$mail->Subject="Invoice Details";
+	$mail->Subject="Receipt for your Registration";
 	$mail->Body=$html;
 	$mail->SMTPOptions=array('ssl'=>array(
 		'verify_peer'=>false,

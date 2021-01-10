@@ -192,7 +192,8 @@ function user_login(){
 	var email=jQuery("#login_email").val();
 	var password=jQuery("#login_password").val();
 	var is_error='';
-	if(email.indexOf("@")== -1 || email.length < 6){
+	var regex = /^\S+@\S+\.\S+$/;
+	if(regex.test(email)== false || email.length < 6){
 		jQuery('#login_email_error').html('Email is required');
 		is_error='yes';
 	}if(password==""){

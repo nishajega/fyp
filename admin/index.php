@@ -5,7 +5,7 @@ $res_new = mysqli_query($con, "SELECT count(*) as total FROM courses LIMIT 3");
 $total_new = mysqli_fetch_assoc($res_new);
 $data_new = $total_new['total'];
 
-$res_total = mysqli_query($con, "SELECT count(*) as total FROM courses ");
+$res_total = mysqli_query($con, "SELECT count(*) as total FROM courses where status='Approve'");
 $total_courses = mysqli_fetch_assoc($res_total);
 $data_total = $total_courses['total'];
 
@@ -34,28 +34,13 @@ $data_cert = $total_cert['total'];
   <!-- Page Heading -->
   <div class="d-sm-flex align-items-center justify-content-between mb-4">
     <h1 class="h3 mb-0 text-gray-800">DASHBOARD</h1>
-    <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
+    <a href="sales.php" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
   </div>
 
   <!-- Content Row -->
   <div class="row">
 
     <!-- Earnings (Monthly) Card Example -->
-    <div class="col-xl-3 col-md-6 mb-4">
-      <div class="card border-left-primary shadow h-100 py-2">
-        <div class="card-body">
-          <div class="row no-gutters align-items-center">
-            <div class="col mr-2">
-              <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">newly registered</div>
-              <div class="h5 mb-0 font-weight-bold text-gray-800"><?php echo $data_new ?> </div>
-            </div>
-            <div class="col-auto">
-              <i class="far fa-user fa-2x text-gray-300"></i>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
 
     <!-- Earnings (Monthly) Card Example -->
     <div class="col-xl-3 col-md-6 mb-4">
@@ -125,7 +110,7 @@ $data_cert = $total_cert['total'];
   </div>
 
   <!-- Content Row -->
-<h5>Number of Users Purchased the Course </h5>
+<h5>Number of Users Registered for the Course </h5>
   <div class="row">
 
     <!-- Area Chart -->

@@ -18,6 +18,7 @@ if (isset($_POST['email']) && $_POST['password']) {
 			} else {
 				echo "done";
 				$_SESSION['IS_LOGIN'] = 1;
+				$_SESSION['IS_USERID'] = $row['id'];
 			}
 		}
 	} else {

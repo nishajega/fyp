@@ -72,7 +72,7 @@ require('functions.php');
                                         <tr>
                                             <th class="product-name">Course name</th>
                                             <th class="product-price">Price</th>
-                                            <th class="product-quantity">Quantity</th>
+                                            <th class="product-quantity">No. of Pax</th>
                                             <th class="product-subtotal">Total</th>
                                             <th class="product-remove">Remove</th>
                                         </tr>
@@ -94,7 +94,7 @@ require('functions.php');
                                         <tr>
                                             <td class="product-name"><?php echo $pname ?><br><?php echo $date ?></td>
                                             <td class="product-price"><span class="amount"> RM <?php echo $price ?></span></td>
-                                            <td class="product-quantity"><input type="number" id="<?php echo $key?>quantity" value="<?php echo $quantity ?>" />
+                                            <td class="product-quantity"><input type="number" min="1" id="<?php echo $key?>quantity" value="<?php echo $quantity ?>" />
 											<br/><a href="javascript:void(0)" onclick="manage_cart('<?php echo $key?>','update')">UPDATE</a></td>
                                             <td class="product-subtotal"> RM <?php echo $quantity*$price ?></td>
                                             <td class="product-remove"><a href="javascript:void(0)" onclick="manage_cart('<?php echo $key?>','remove')"><i class="fa fa-times"></i></a></td>
@@ -108,7 +108,7 @@ require('functions.php');
                                 <div class="col-md-12 col-sm-12 col-xs-12">
                                     <div class="buttons-cart--inner">
                                         <div class="buttons-cart">
-                                            <a href="course2.php">Continue Shopping</a>
+                                            <a href="course2.php">Continue looking for courses</a>
                                         </div>
                                         <div class="buttons-cart checkout--btn">
                                             <a href="check.php">checkout</a>

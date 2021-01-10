@@ -13,12 +13,13 @@ unset($_SESSION['cart']);
 
 <div class="jumbotron text-center">
   <h1 class="display-3">Payment Succesful!</h1>
-  <p class="lead">Thank you! Please check your order details in the purchase history.</p>
+  <p class="lead">Thank you! Please check your registration details in the My Registration page.
+  <br>Please do not forget to fill in <strong>certification form</strong> in <strong>My Courses</strong> for e-certificate.</p>
   <hr>
   <p>
     Having trouble? <a href="mailto: nishajeg27@gmail.com">Contact us</a>
   </p>
   <p class="lead">
-    <a class="btn btn-primary btn-sm" href="my_order.php" role="button">Continue to order page</a>
+    <a class="btn btn-primary btn-sm" href="my_order.php" role="button">Continue to My Registration</a>
   </p>
 </div>

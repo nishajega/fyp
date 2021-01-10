@@ -46,7 +46,6 @@ $res=mysqli_query($con,$sql);
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                   <thead>
                     <tr>
-					  <th>#</th>
                       <th>ID</th>
                       <th>Categories</th>
                       <th>Status</th>
@@ -54,7 +53,6 @@ $res=mysqli_query($con,$sql);
                   </thead>
                   <tfoot>
                     <tr>
-                      <th>#</th>
 					  <th>ID</th>
                       <th>Categories</th>
                       <th>Status</th>
@@ -66,7 +64,6 @@ $res=mysqli_query($con,$sql);
 				  while($row=mysqli_fetch_assoc($res)){
 				  ?>
                     <tr>
-                      <td><?php echo $i?></td>
                       <td><?php echo $row['id']?></td>
                       <td><?php echo $row['categories']?></td>
 					  <td>

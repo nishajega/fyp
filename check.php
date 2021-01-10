@@ -30,8 +30,6 @@ if(isset($_POST['submit'])){
 	$order_status='1';
 	$added_on=date('Y-m-d h:i:s');
 	
-	echo "insert into `ordered`(user_name, address, city, postcode, total_price, payment_status, token, order_status, added_on) values
-	('$user_name', '$address', '$state', '$postcode', '$total_price', '$payment_status','$token', '$order_status', '$added_on')";
 	mysqli_query($con, "insert into `ordered`(user_name, address, state, postcode, total_price, payment_status, token, order_status, added_on) values
 	('$user_name', '$address', '$state', '$postcode', '$total_price', '$payment_status','$token', '$order_status', '$added_on')");
 
@@ -67,7 +65,7 @@ if(isset($_POST['submit'])){
 
     <!-- All css files are included here. -->
     <!-- Bootstrap fremwork main css -->
-    <link rel="stylesheet" href="css/bootstrap.min.css">
+	
     <!-- Owl Carousel min css -->
     <link rel="stylesheet" href="css/owl.carousel.min.css">
     <link rel="stylesheet" href="css/owl.theme.default.min.css">
@@ -193,7 +191,7 @@ if(isset($_POST['submit'])){
 									$accordion_class='accordion__hide'
 									?>
                                     <div class="<?php echo $accordion_class?>">
-                                        Address Information
+                                        Billing Address
                                     </div>
                                     <div class="accordion__body">
                                         <div class="bilinfo">

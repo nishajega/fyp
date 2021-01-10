@@ -134,18 +134,19 @@ require('header2.php');
 				noSpace: true,
 				noEmail: true
             },
-            enquiry: {
-                required: true,
-				minlength:10,
-				noSpace: true
-            },
 			phone: {
                 required: true,
                 number: true,
 				minlength:10,
 				maxlength:11,
 				noSpace: true
+            },
+            enquiry: {
+                required: true,
+				minlength:10,
+				noSpace: true
             }
+			
 			},
         // Specify validation error messages
         messages: {
@@ -157,16 +158,17 @@ require('header2.php');
 				required:"Please enter your email address",
                 noEmail: "Provide valid email address"
             },
-            enquiry: {
-                required: "Enquiry content is required",
-				enquiry: "Your enquiry must be at least 10 characters long"
-            },
-            phone: {
+			phone: {
                 required: "Please enter your phone num",
                 number: "Enter numeric value only",
 				minlength: "Enter valid phone number",
 				maxlength: "Enter valid phone number"
+            },
+            enquiry: {
+                required: "Enquiry content is required",
+				enquiry: "Your enquiry must be at least 10 characters long"
             }
+            
 		},
 		errorPlacement: function (error, element) {
             alert(error.html());

@@ -1,30 +1,29 @@
 <?php
 require('connection.php');
+require('functions.php');
 if (isset($_POST['submit'])) {
-	$id = $_POST['id'];
-    $categories_id = $_POST['categories_id'];
-    $name = $_POST['name'];
-    $description = $_POST['description'];
-    $overview = $_POST['overview'];
-    $audience_target = $_POST['audience_target'];
-    $duration = $_POST['duration'];
-    $price = $_POST['price'];
-    $dates = $_POST['dates'];
-	$dates2 = $_POST['dates2'];
-	$dates3 = $_POST['dates3'];
-	$dates4 = $_POST['dates4'];
-    $instructor_name = $_POST['instructor_name'];
-
-	echo "UPDATE courses SET categories_id=$categories_id,name='$name',description='$description',",
-	"overview='$overview',audience_target='$audience_target',duration='$duration',price=$price,dates='$dates', dates2='$dates2',
-	dates3='$dates3', dates4='$dates4' WHERE id='$id'";
+	$categories_id = get_safe_value($con, $_POST['categories_id']);
+    $name = get_safe_value($con, $_POST['name']);
+    $description = get_safe_value($con, $_POST['description']);
+    $overview = get_safe_value($con, $_POST['overview']);
+    $audience_limit = get_safe_value($con, $_POST['audience_target']);
+    $duration = get_safe_value($con, $_POST['duration']);
+    $price = get_safe_value($con, $_POST['price']);
+    $dates = get_safe_value($con, $_POST['dates']);
+	$dates2 = get_safe_value($con, $_POST['dates2']);
+	$dates3 = get_safe_value($con, $_POST['dates3']);
+	$dates4 = get_safe_value($con, $_POST['dates4']);
 	
-	$query =  "UPDATE courses SET categories_id=$categories_id,name='$name',description='$description',";
-	$query.=  "overview='$overview',audience_target='$audience_target',duration='$duration',price=$price,dates='$dates', dates2='$dates2',
-	dates3='$dates3', dates4='$dates4' WHERE id='$id'";
-
-	echo $query;
-	mysqli_query($con, $query);
-	header('Location:edit_course.php?id='.$id);
-
+	if (isset($_GET['id']) && $_GET['id'] != '') {
+		$query =  "UPDATE courses SET categories_id='$categories_id',name='$name',description='$description',
+		overview='$overview',audience_target='$audience_target',duration='$duration',price='$price',dates='$dates',dates2='$dates2',dates3='$dates3',
+		dates4='$dates4' WHERE id='$id'";
+		mysqli_query($con, $query);
+		?>
+		<script>
+			window.location.href='approved_course.php';
+		</script>
+		<?php
+	}
 }
+?>

@@ -14,8 +14,9 @@ require('top.php');
       <h6 class="m-0 font-weight-bold text-primary"></h6>
     <form action="sales2.php" method="POST">
       <label for="">Select month:</label>
-      <select class="form-control" name="month" id="month">
-        <option value="1">January</option>
+      <select class="form-control" name="month" id="month" required>
+        <option value="">Select Month</option>
+		<option value="1">January</option>
         <option value="2">February</option>
         <option value="3">March</option>
         <option value="4">April</option>
@@ -28,6 +29,13 @@ require('top.php');
         <option value="11">November</option>
         <option value="12">December</option>
       </select>
+	  <select class="form-control" name="year" id="year" required>
+        <option value="">Year</option>
+        <option value="2021">2021</option>
+        <option value="2022">2022</option>
+		<option value="2023">2023</option>
+		</select>
+	  
       <button type="submit" style="float: right;" class="btn btn-success">Generate PDF Report</button>
         </form>
 		</div>
@@ -38,8 +46,9 @@ require('top.php');
       <h6 class="m-0 font-weight-bold text-primary"></h6>
     <form action="" method="POST">
       <label for="">Select month:</label>
-      <select class="form-control" name="month" id="month">
-        <option value="1">January</option>
+      <select class="form-control" name="month" id="month" required>
+        <option value="">Select Month</option>
+		<option value="1">January</option>
         <option value="2">February</option>
         <option value="3">March</option>
         <option value="4">April</option>
@@ -52,6 +61,13 @@ require('top.php');
         <option value="11">November</option>
         <option value="12">December</option>
       </select>
+	  
+	  <select class="form-control" name="year" id="year" required>
+        <option value="">Year</option>
+        <option value="2021">2021</option>
+        <option value="2022">2022</option>
+		<option value="2023">2023</option>
+		</select>
       <button type="submit" name="submit" style="float: right;" class="btn btn-success">Submit </button>
         </form>
 	
@@ -63,10 +79,11 @@ require('top.php');
           <?php
 			if(isset($_POST['submit'])){
 				$month_select=$_POST['month'];
-				$sql="select DISTINCT(order_detail.product_id),sum(order_detail.quantity) as total, sum(order_detail.price) as 
+				$year_select=$_POST['year'];
+				$sql="select DISTINCT(order_detail.product_id),sum(order_detail.quantity) as total, sum(order_detail.price*order_detail.quantity) as 
 				totalprice, courses.name,ordered.order_status, month(ordered.added_on) as month from order_detail, courses, ordered 
 				where order_detail.product_id=courses.id and ordered.id=order_detail.order_id and ordered.order_status='3' 
-				and month(ordered.added_on)='$month_select' group by order_detail.product_id";
+				and month(ordered.added_on)='$month_select' and year(ordered.added_on)='$year_select' group by order_detail.product_id";
 				$res = mysqli_query($con, $sql);
 				if($month_select=='1'){
 					echo '<b>January</b>';
@@ -104,12 +121,15 @@ require('top.php');
 				if($month_select=='12'){
 					echo '<b>December</b>';
 				}
+				
+				echo $year_select;
 				?>
+				
 		  <thead>
             <tr>
 
               <th>Course</th>
-              <th>Total Quantity Sold</th>
+              <th>Total No.of Pax</th>
               <th>Total Price</th>
             </tr>
           </thead>
@@ -125,21 +145,21 @@ require('top.php');
             <?php endwhile; ?>
 
           </tbody>
-        </table>
+        </table><br>
 		<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
 			<thead>
-			<b>Best Seller of the Month (by Price)</b>
+			<b>Most Demanding Course (by Price)</b>
 			</thead>
 			<?php
-			$best="select DISTINCT(order_detail.product_id),sum(order_detail.quantity) as total, sum(order_detail.price) as 
+			$best="select DISTINCT(order_detail.product_id),sum(order_detail.quantity) as total, sum(order_detail.price*order_detail.quantity) as 
 				totalprice, courses.name,ordered.order_status, month(ordered.added_on) as month from order_detail, courses, ordered 
 				where order_detail.product_id=courses.id and ordered.id=order_detail.order_id and ordered.order_status='3' 
-				and month(ordered.added_on)='$month_select' group by product_id order by totalprice DESC limit 1";
+				and month(ordered.added_on)='$month_select' and year(ordered.added_on)='$year_select' group by product_id order by totalprice DESC limit 1";
 			$best_seller=mysqli_query($con, $best);
 			?>
 			<tr>
 				<th>Course</th>
-				<th>Total Quantity Sold</th>
+				<th>Total No.of Pax</th>
 				<th>Total Price</th>
 			</tr>
 			</thead>
@@ -155,22 +175,22 @@ require('top.php');
             <?php endwhile; ?>
 
           </tbody>
-		</table>
+		</table><br>
 		
 		<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
 			<thead>
-			<b>High Sale (by Quantity)</b>
+			<b>Most Demanding Course (by Quantity)</b>
 			</thead>
 			<?php
-			$bestqty="select DISTINCT(order_detail.product_id),sum(order_detail.quantity) as total, sum(order_detail.price) as 
+			$bestqty="select DISTINCT(order_detail.product_id),sum(order_detail.quantity) as total, sum(order_detail.price*order_detail.quantity) as 
 				totalprice, courses.name,ordered.order_status, month(ordered.added_on) as month from order_detail, courses, ordered 
 				where order_detail.product_id=courses.id and ordered.id=order_detail.order_id and ordered.order_status='3' 
-				and month(ordered.added_on)='$month_select' group by product_id order by total DESC limit 1";
+				and month(ordered.added_on)='$month_select' and year(ordered.added_on)='$year_select' group by product_id order by total, totalprice DESC limit 1";
 			$best_seller_qty=mysqli_query($con, $bestqty);
 			?>
 			<tr>
 				<th>Course</th>
-				<th>Total Quantity Sold</th>
+				<th>Total No.of Pax</th>
 				<th>Total Price</th>
 			</tr>
 			</thead>
@@ -186,22 +206,22 @@ require('top.php');
             <?php endwhile; ?>
 
           </tbody>
-		</table>
+		</table><br>
 		
 		<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
 			<thead>
-			<b>Least Sold (by Quantity)</b>
+			<b>Least Demanding Course</b>
 			</thead>
 			<?php
-			$leastqty="select DISTINCT(order_detail.product_id),sum(order_detail.quantity) as total, sum(order_detail.price) as 
+			$leastqty="select DISTINCT(order_detail.product_id),sum(order_detail.quantity) as total, sum(order_detail.price*order_detail.quantity) as 
 				totalprice, courses.name,ordered.order_status, month(ordered.added_on) as month from order_detail, courses, ordered 
 				where order_detail.product_id=courses.id and ordered.id=order_detail.order_id and ordered.order_status='3' 
-				and month(ordered.added_on)='$month_select' group by product_id order by total ASC limit 1";
+				and month(ordered.added_on)='$month_select' and year(ordered.added_on)='$year_select' group by product_id order by total,totalprice ASC limit 1";
 			$least_seller_qty=mysqli_query($con, $leastqty);
 			?>
 			<tr>
 				<th>Course</th>
-				<th>Total Quantity Sold</th>
+				<th>Total No.of Pax</th>
 				<th>Total Price</th>
 			</tr>
 			</thead>
@@ -219,36 +239,6 @@ require('top.php');
           </tbody>
 		</table>
 		
-		<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-			<thead>
-			<b>Least Sold (by Price)</b>
-			</thead>
-			<?php
-			$least="select DISTINCT(order_detail.product_id),sum(order_detail.quantity) as total, sum(order_detail.price) as 
-				totalprice, courses.name,ordered.order_status, month(ordered.added_on) as month from order_detail, courses, ordered 
-				where order_detail.product_id=courses.id and ordered.id=order_detail.order_id and ordered.order_status='3' 
-				and month(ordered.added_on)='$month_select' group by product_id order by totalprice ASC limit 1";
-			$least_seller=mysqli_query($con, $least);
-			?>
-			<tr>
-				<th>Course</th>
-				<th>Total Quantity Sold</th>
-				<th>Total Price</th>
-			</tr>
-			</thead>
-			<tbody>
-		  <?php
-            while ($least_row = mysqli_fetch_assoc($least_seller)) :
-            ?>
-              <tr>
-                <td><?= $least_row['name'] ?></td>
-                <td><?= $least_row['total'] ?></td>
-				<td>RM <?= $least_row['totalprice'] ?></td>
-              </tr>
-            <?php endwhile; ?>
-
-          </tbody>
-		</table>
 			<?php } ?>
       </div>
     </div>

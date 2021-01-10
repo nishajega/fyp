@@ -37,12 +37,37 @@ error_reporting(0);
 		$course_arr[] = $course_row;
 	}
 ?>
-
+<head>
+<style>
+.cup
+{
+	display: flex;
+	flex-wrap: wrap;
+	border-collapse: separate;
+	border-spacing: 20px;
+}
+.cup .box
+{
+	position: relative;
+	bottom:250px;
+	left:280px;
+	width: 390px;
+	padding: 40px;
+	background: #fff;
+	box-shadow: 0 5px 15px rgba(0,0,0,.1);
+	border-radius: 4px;
+	margin: 15px;
+	margin-left: 20px;
+	box-sizing: border-box;
+	overflow: hidden;
+}	
+</style>
+</head>
   <!-- Page Content -->
   <div class="container">
 
     <!-- Page Heading/Breadcrumbs -->
-    <h1 class="mt-4 mb-3">Courses
+    <h1 class="mt-4 mb-3">COURSES
     </h1>
 
     <ol class="breadcrumb">
@@ -58,7 +83,7 @@ error_reporting(0);
       <!-- Sidebar Column -->
       <div class="col-lg-3 mb-4">
         <div class="list-group">
-		
+			<a class="list-group-item" href="course2.php">ALL COURSES</a>
 		<?php
 			foreach ($cat_arr as $list) {
 		?>
@@ -79,7 +104,7 @@ error_reporting(0);
 				<div class="icon text-uppercase"><?php echo $courselst['id'] ?></div>
 				<div class="content">
 					<h3><?php echo $courselst['name'] ?></h3>
-					<p><?php echo $courselst['overview'] ?></p>
+					<p><?php echo $courselst['description'] ?></p>
 					<a href="coursedet.php?id=<?php echo $courselst['id'] ?>">Details</a>
 				</div>
 

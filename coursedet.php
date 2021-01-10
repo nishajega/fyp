@@ -56,10 +56,7 @@ require('functions.php');
     <p>
       <?php echo $get_product[0]['audience_target'] ?><br /><br />
     </p>
-	<?php if($get_product[0]['filename']!=='') {?>
-	<a href="readpdf.php?name=<?= $get_product[0]['filename'] ?>">OPEN PDF FILE </a>
   </div>
-	<?php } ?>
 
   <div class="card">
     <form method="post" action="">
@@ -68,7 +65,7 @@ require('functions.php');
         <?php echo $get_product[0]['duration'] ?> DAYS
       </h3>
 	 
-      <p>Quantity:</p>
+      <p>No. of Pax:</p>
       <select class="form-control" style="width: 80px; align:center;" id="quantity" name="quantity" required>
 		<option>0</option>
 		<option value="1">1</option>

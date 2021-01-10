@@ -149,7 +149,7 @@ function smtp_mailer($to,$subject, $msg){
 	<div class="row">
              <div class="column">
 		
-    		<input type="text" placeholder="Enter Full Name" name="name" id="name" style="text-transform: uppercase" required>
+    		<input type="text" placeholder="Enter Full Name" name="name" id="name" required>
 
     		<input type="email" placeholder="Enter Email" name="email" id="email" required>
 

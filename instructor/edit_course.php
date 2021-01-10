@@ -19,8 +19,33 @@ if (isset($_GET['id']) && $_GET['id'] != '') {
 	$dates4 = $row['dates4'];
         $instructor_name = $row['instructor_name'];
         $status = $row['status'];
-	$filename = $row['filename'];
     }
+}
+
+if (isset($_POST['submit'])) {
+	$categories_id = get_safe_value($con, $_POST['categories_id']);
+    $name = get_safe_value($con, $_POST['name']);
+    $description = get_safe_value($con, $_POST['description']);
+    $overview = get_safe_value($con, $_POST['overview']);
+    $audience_limit = get_safe_value($con, $_POST['audience_target']);
+    $duration = get_safe_value($con, $_POST['duration']);
+    $price = get_safe_value($con, $_POST['price']);
+    $dates = get_safe_value($con, $_POST['dates']);
+	$dates2 = get_safe_value($con, $_POST['dates2']);
+	$dates3 = get_safe_value($con, $_POST['dates3']);
+	$dates4 = get_safe_value($con, $_POST['dates4']);
+	
+	if (isset($_GET['id']) && $_GET['id'] != '') {
+		$query =  "UPDATE courses SET categories_id='$categories_id',name='$name',description='$description',
+		overview='$overview',audience_target='$audience_target',duration='$duration',price='$price',dates='$dates',dates2='$dates2',dates3='$dates3',
+		dates4='$dates4' WHERE id='$id'";
+		mysqli_query($con, $query);
+		?>
+		<script>
+			window.location.href='course.php';
+		</script>
+		<?php
+	}
 }
 
 
@@ -30,7 +55,7 @@ if (isset($_GET['id']) && $_GET['id'] != '') {
 
     <!-- Page Heading -->
     <h1 class="h3 mb-4 text-gray-800">Course Update</h1>
-    <form method="post" action="update_course.php">
+    <form method="post" action="" name="myForm" id="myForm">
         <div style="color:red; margin: 5px;"></div>
         <input type="hidden" name="instructor_name" value="<?php echo $_SESSION['instructor_name']; ?>">
         <hr>
@@ -64,12 +89,11 @@ if (isset($_GET['id']) && $_GET['id'] != '') {
             <label for="audience"><b>Target Audience</b></label>
             <input type="text" placeholder="Target Audience" name="audience_target" id="audience_target" required value="<?php echo $audience_target ?>">
 
-            <label for="price"><b>Price Suggestion</b></label>
-            <input type="integer" placeholder="Suggest a price for this course" name="pricelul" id="price" required value="<?php echo $price ?>"
-            <?php if($status=='Approve'){echo 'Disabled';}else{echo "";}?>>
+            <label for="price"><b>Fee Suggestion</b></label>
+            <input type="integer" placeholder="Suggest a fee for this course" name="price" id="price" required value="<?php echo $price ?>">
 
             <label for="duration"><b>Duration</b></label>
-            <input type="number" placeholder="Days" name="duration" id="duration" required value="<?php echo $duration ?>"><br>
+            <input type="integer" placeholder="Days" name="duration" id="duration" required value="<?php echo $duration ?>"><br>
 
             <label for="dates"><b>Date</b></label>
             <input type="date" placeholder="dd/mm/yyyy" name="dates" id="dates" required value="<?php echo $dates ?>"><br>
@@ -84,7 +108,6 @@ if (isset($_GET['id']) && $_GET['id'] != '') {
             <input type="date" placeholder="dd/mm/yyyy" name="dates4" id="dates3" value="<?php echo $dates4 ?>"><br>
             <input type="hidden" value="<?= $id ?>" name="id">
             <!-- <input type="hidden" value= name="name"> -->
-            <input type="hidden" value="<?= $price ?>" name="price">
 
             <br><br>
 
@@ -100,6 +123,92 @@ if (isset($_GET['id']) && $_GET['id'] != '') {
 
 </div>
 <!-- End of Main Content -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.9/jquery.validate.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.2/dist/jquery.validate.js"></script>
+<script src="multiselect/jquery.multiselect.js"></script>
+<script type="text/javascript">
+	$.validator.addMethod("notNone", function(value, element){
+		return(value != "");
+	}, "Please select an option");
+	// Wait for the DOM to be ready
+    // Initialize form validation on the registration form.
+    // It has the name attribute "registration"
+    $("#myForm").validate({
+        // Specify validation rules
+        rules: {
+            // The key name on the left side is the name attribute
+            // of an input field. Validation rules are defined
+            // on the right side
+            categories_id:{
+				notNone: true
+			},
+			name: {
+                required: true
+            },
+            description: {
+                required: true
+            },
+            overview: {
+                required: true
+            },
+            audience_target: {
+                required: true
+            },
+            price: {
+                required: true,
+                number: true
+            },
+            duration: {
+                required: true,
+                number: true,
+				min:1,
+				max:10
+            },
+			dates:{
+                required: true
+			}
+
+        },
+        // Specify validation error messages
+        messages: {
+            name: {
+                required: "Please enter course name"
+            },
+            description: {
+                required: "Description can't be blank"
+            },
+            overview: {
+                required: "Overview can't be blank"
+            },
+            audience_target: {
+                required: "Target audience info is required",
+            },
+            price: {
+                required: "Please Enter Price",
+                number: "Enter numeric value only"
+            },
+            duration: {
+                required: "Please Enter Duration",
+                number: "Enter numeric value only",
+				min:"Enter valid numeric value only",
+				max:"Enter valid numeric value only"
+            },
+			dates: {
+                required: "Please choose a date"
+			}
+		},
+		errorPlacement: function (error, element) {
+            error.insertAfter(element);
+        },
+        // Make sure the form is submitted to the destination defined
+        // in the "action" attribute of the form when valid
+        submitHandler: function (form) {
+            form.submit();
+        }
+	});
+
+</script>
 
 
 <?php

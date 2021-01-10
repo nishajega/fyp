@@ -38,7 +38,32 @@ if (isset($_POST['submit'])) {
         }
 }
 ?>
-
+<head>
+<style>
+.cup
+{
+	display: flex;
+	flex-wrap: wrap;
+	border-collapse: separate;
+	border-spacing: 20px;
+}
+.cup .box
+{
+	position: relative;
+	bottom:250px;
+	left:280px;
+	width: 390px;
+	padding: 40px;
+	background: #fff;
+	box-shadow: 0 5px 15px rgba(0,0,0,.1);
+	border-radius: 4px;
+	margin: 15px;
+	margin-left: 20px;
+	box-sizing: border-box;
+	overflow: hidden;
+}	
+</style>
+</head>
 <!-- Page Content -->
   <div class="container">
 
@@ -59,7 +84,7 @@ if (isset($_POST['submit'])) {
       <!-- Sidebar Column -->
       <div class="col-lg-3 mb-4">
         <div class="list-group">
-		
+		<a class="list-group-item" href="course2.php">ALL COURSES</a>
 		<?php
 			foreach ($cat_arr as $list) {
 		?>
@@ -83,8 +108,8 @@ if (isset($_POST['submit'])) {
 				<div class="icon text-uppercase"><?php echo $courselst['id'] ?></div>
 				<div class="content">
 					<h3><?php echo $courselst['name'] ?></h3>
-					<p><?php echo $courselst['overview'] ?></p>
-					<a href="course_details.php?id=<?php echo $courselst['id'] ?>">Details</a>
+					<p><?php echo $courselst['description'] ?></p>
+					<a href="coursedet.php?id=<?php echo $courselst['id'] ?>">Details</a>
 				</div>
 
 
@@ -95,20 +120,7 @@ if (isset($_POST['submit'])) {
 		</div>
 		</div>
     <!-- /.row -->
-	<ul class="pagination justify-content-center">
-      <?php
-			if ($total_no_of_pages <= 10) {
-				for ($counter = 1; $counter <= $total_no_of_pages; $counter++) {
-					if ($counter == $page_no) {
-						echo " <li class='page-item'><a class='page-link' href='course2.php?page_no=$counter'>$counter</a></li>";
-					}else{
-						echo "<li class='page-item'><a class='page-link' href='course2.php?page_no=$counter'>$counter</a></li>";
-					}
-				}
-			}				
-	  ?>
-	  </li>
-    </ul>
+	
   </div>
   <!-- /.container -->
 

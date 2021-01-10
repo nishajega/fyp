@@ -21,7 +21,7 @@ if (isset($_GET['type']) && $_GET['type'] != '') {
     mysqli_query($con, $delete_sql);
   }
 }
-$sql = "SELECT * FROM courses WHERE status LIKE 'Approve'";
+$sql = "SELECT courses.*, categories.categories from courses, categories where courses.categories_id=categories.id and courses.status='Approve'";
 $res = mysqli_query($con, $sql);
 ?>
 
@@ -42,7 +42,6 @@ $res = mysqli_query($con, $sql);
         <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
           <thead>
             <tr>
-              <th>#</th>
               <th>ID</th>
               <th>Categories</th>
               <th>Name</th>
@@ -56,13 +55,11 @@ $res = mysqli_query($con, $sql);
 
           <tbody>
             <?php
-            $i = 1;
             while ($row = mysqli_fetch_assoc($res)) {
             ?>
               <tr>
-                <td><?php echo $i; ?></td>
                 <td><?php echo $row['id']; ?></td>
-                <td><?php echo $row['categories_id']; ?></td>
+                <td><?php echo $row['categories']; ?></td>
                 <td><a href="course_list.php?id=<?=$row['id'] ?>"><?php echo $row['name']; ?></a></td>
                 <td><?php echo $row['price']; ?></td>
                 <td><?php echo $row['instructor_name']; ?></td>

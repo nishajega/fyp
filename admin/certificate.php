@@ -10,16 +10,13 @@ and order_detail.order_id=ordered.id and ordered.order_status='3' order by cert.
 <div class="container-fluid">
 
     <!-- Page Heading -->
-    <h1 class="h3 mb-2 text-gray-800">Course</h1>
+    <h1 class="h3 mb-2 text-gray-800">e-Certificate</h1>
 
 
     <!-- DataTales Example -->
     <div class="card shadow mb-4">
         <div class="card-header py-3">
             <h6 class="m-0 font-weight-bold text-primary">List of Registered Users</h6>
-			<a href="add_categories.php" style= "float: right;" class="btn btn-success">               	
-                <span class="text">+ Generate e-Cert</span>
-			  </a>
         </div>
         <div class="card-body">
             <div class="table-responsive">
@@ -32,7 +29,6 @@ and order_detail.order_id=ordered.id and ordered.order_status='3' order by cert.
                             <th>Course</th>
                             <th>Instructor</th>
 							<th>Date</th>
-                            <th>Status</th>
                             <th>Action</th>
 
                         </tr>
@@ -49,7 +45,6 @@ and order_detail.order_id=ordered.id and ordered.order_status='3' order by cert.
                                 <td><?php echo $row[8] ?></td>
                                 <td><?php echo $row[6] ?></td>
                                 <td><?php echo $row[5] ?></td>
-                                <td><?php echo $row[7] ?></td>
                                 <td>
 								<?php
 								if($row[7]==1){

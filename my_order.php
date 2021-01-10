@@ -56,7 +56,7 @@ include('top.php');
     <main role="main" class="flex-shrink-0">
         <div class="container">
 		<br><br>
-		<h3>ORDER HISTORY</h3><br>
+		<h3>My Registration</h3><br>
             <table class="table">
                 <thead class="thead-light">
                     <tr>

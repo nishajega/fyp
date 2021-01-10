@@ -9,7 +9,6 @@ if(!isset($_SESSION['user_login'])){
 	<?php
 }
 ?>
-?>
 <!doctype html>
 <html class="no-js" lang="en">
 <head>

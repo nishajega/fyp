@@ -1,5 +1,28 @@
 <?php
 require('top.php');
+error_reporting(0);
+
+if (isset($_GET['page_no']) && $_GET['page_no'] != "") {
+		$page_no = $_GET['page_no'];
+	} else {
+		$page_no = 1;
+	}
+
+	$course_name_search = $_POST['name'];
+	$total_records_per_page = 6;
+	$offset = ($page_no - 1) * $total_records_per_page;
+	$previous_page = $page_no - 1;
+	$next_page = $page_no + 1;
+	$adjacents = "2";
+
+	$result_count = mysqli_query(
+		$con,
+		"SELECT COUNT(*) As total_records FROM `courses` WHERE name LIKE '%$course_name_search%' AND status='Approve'"
+	);
+	$total_records = mysqli_fetch_array($result_count);
+	$total_records = $total_records['total_records'];
+	$total_no_of_pages = ceil($total_records / $total_records_per_page);
+	$second_last = $total_no_of_pages - 1; 
 $categories_id=mysqli_real_escape_string($con,$_GET['id']);
 
 $cat_res = mysqli_query($con, "SELECT * FROM categories WHERE status=1");
@@ -20,6 +43,32 @@ if($categories_id != ''){
 }
 
 ?>
+<head>
+<style>
+.cup
+{
+	display: flex;
+	flex-wrap: wrap;
+	border-collapse: separate;
+	border-spacing: 20px;
+}
+.cup .box
+{
+	position: relative;
+	bottom:250px;
+	left:280px;
+	width: 390px;
+	padding: 40px;
+	background: #fff;
+	box-shadow: 0 5px 15px rgba(0,0,0,.1);
+	border-radius: 4px;
+	margin: 15px;
+	margin-left: 20px;
+	box-sizing: border-box;
+	overflow: hidden;
+}	
+</style>
+</head>
  <!-- Page Content -->
   <div class="container">
 
@@ -40,7 +89,7 @@ if($categories_id != ''){
       <!-- Sidebar Column -->
       <div class="col-lg-3 mb-4">
         <div class="list-group">
-		
+		<a class="list-group-item" href="course2.php">ALL COURSES</a>
 		<?php
 			foreach ($cat_arr as $list) {
 		?>
@@ -61,7 +110,7 @@ if($categories_id != ''){
 				<div class="icon text-uppercase"><?php echo $courselst['id'] ?></div>
 				<div class="content">
 					<h3><?php echo $courselst['name'] ?></h3>
-					<p><?php echo $courselst['overview'] ?></p>
+					<p><?php echo $courselst['description'] ?></p>
 					<a href="course_details.php?id=<?php echo $courselst['id'] ?>">Details</a>
 				</div>
 
@@ -73,18 +122,5 @@ if($categories_id != ''){
 		</div>
 		</div>
     <!-- /.row -->
-	<ul class="pagination justify-content-center">
-      <?php
-			if ($total_no_of_pages <= 10) {
-				for ($counter = 1; $counter <= $total_no_of_pages; $counter++) {
-					if ($counter == $page_no) {
-						echo " <li class='page-item'><a class='page-link' href='course2.php?page_no=$counter'>$counter</a></li>";
-					}else{
-						echo "<li class='page-item'><a class='page-link' href='course2.php?page_no=$counter'>$counter</a></li>";
-					}
-				}
-			}				
-	  ?>
-	  </li>
-    </ul>
+	
   </div>

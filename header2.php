@@ -1,5 +1,6 @@
 <?php
 require('connection.php');
+require('addcart_inc.php');
 
 error_reporting(0);
 if(isset($_SESSION['user_login'])){
@@ -11,6 +12,9 @@ $res = mysqli_query($con, $query);
 $row = mysqli_fetch_assoc($res);
 
 $id = $row['id'];
+
+$obj=new add_to_cart();
+$totalproduct=$obj->totalProduct();
 ?>
 
 <!DOCTYPE html>
@@ -21,7 +25,7 @@ $id = $row['id'];
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="" />
     <meta name="author" content="" />
-    <title>Creative - Start Bootstrap Theme</title>
+    <title>UNITEN EEProMS</title>
     <!-- Favicon-->
     <link rel="icon" type="image/x-icon" href="assets/img/logo.png" />
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
@@ -73,27 +77,20 @@ $id = $row['id'];
             <a class="navbar-brand js-scroll-trigger" href="#page-top" style="color:black;">UNITEN</a><button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ml-auto my-2 my-lg-0">
-                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#page-top" style="color:black;">HOME</a></li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" style="color:black;" id="navbarDropdownPortfolio" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            COURSE
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownPortfolio">
-                            <a class="dropdown-item" href="course2.php">Show Courses</a>
-
-                        </div>
-                    </li>
-                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#about" style="color:black;">ABOUT</a></li>
-                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#contact" style="color:black;">CONTACT</a></li> 
-                    <?php if(!isset($_SESSION['name'])): ?>
-                        <li class='nav-item'><a class='nav-link js-scroll-trigger' href='user/student_register.php' style='color:black;'>You are not logged in</a></li>
+                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#page-top" style="color:black;">Home</a></li>
+                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="course2.php" style="color:black;font-weight:bold;">Course</a></li>
+                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#about" style="color:black;">About</a></li>
+                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#contact" style="color:black;">Contact</a></li> 
+                    <?php if(!isset($_SESSION['user_id'])): ?>
+                        <li class='nav-item'><a class='nav-link js-scroll-trigger' href='user/login.php' style='color:black;'>Register/Login</a></li>
                     <?php else: ?>
                         <li class='nav-item dropdown'>
 						 <a class='nav-link dropdown-toggle' href='#' style='color:black;' id='navbarDropdownPortfolio' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>
-						 Welcome   <?= $_SESSION['name'] ?> !!!
+						 Hi   <?= $_SESSION['name'] ?> !
 						 </a>
 						 <div class='dropdown-menu dropdown-menu-right' aria-labelledby='navbarDropdownPortfolio'>
-                            <a class='dropdown-item' href='invoice_history.php?id=<?= $id ?>'>Purchase History</a>
+                            <a class='dropdown-item' href='my_order.php'>My Registration</a>
+							<a class='dropdown-item' href='user/profile.php'>Edit Profile</a>
 							<a class='dropdown-item' href='logout.php' style="color:black;">Logout</a>
                         </div>
 						</li>
@@ -102,7 +99,7 @@ $id = $row['id'];
                     <li class="nav-item">
 						<div class="htc__shopping__cart">
 							<a href="#"><i class="fa fa-shopping-cart" style="color:black"></i></a>
-							<a href="#"><span class="htc__qua">0</span></a>
+							<a href="cart2.php"><span class="htc__qua"><?php echo $totalproduct ?></span></a>
                         </div>
                 </ul>
             </div>

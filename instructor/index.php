@@ -5,6 +5,17 @@ if(!isset($_SESSION['IS_LOGIN'])){
 	echo "You're logged out";
 	header('location: login.php');
 }
+if(isset($_SESSION['IS_LOGIN'])){
+	$user_id = $_SESSION['instructor_name'];
+}
+
+$res_pending = mysqli_query($con, "SELECT count(*) as total FROM courses WHERE instructor_name='$user_id' and status='Pending' ");
+$pending_courses = mysqli_fetch_assoc($res_pending);
+$data_pending = $pending_courses['total'];
+
+$res_approve = mysqli_query($con, "SELECT count(*) as total FROM courses WHERE instructor_name='$user_id' and status='Approve' ");
+$approve_courses = mysqli_fetch_assoc($res_approve);
+$data_approve = $approve_courses['total'];
 ?>
 
 <html lang="en">
@@ -59,7 +70,21 @@ if(!isset($_SESSION['IS_LOGIN'])){
 
       <li class="nav-item active">
         <a class="nav-link" href="course.php">
-          <span>Update Course</span></a>
+          <span>Pending Course</span></a>
+      </li>
+	  
+	  <hr class="sidebar-divider my-0">
+
+      <li class="nav-item active">
+        <a class="nav-link" href="reject_course.php">
+          <span>Rejected Course</span></a>
+      </li>
+	  
+	  <hr class="sidebar-divider my-0">
+
+      <li class="nav-item active">
+        <a class="nav-link" href="approved_course.php">
+          <span>Approved Course</span></a>
       </li>
 
       <!-- Divider -->
@@ -79,12 +104,6 @@ if(!isset($_SESSION['IS_LOGIN'])){
       </li> -->
 
       <!-- Divider -->
-      <hr class="sidebar-divider my-0">
-
-      <li class="nav-item active">
-        <a class="nav-link" href="instruserlist.html">
-          <span>Newly Registered</span></a>
-      </li>
 
       <!-- Divider -->
       <hr class="sidebar-divider d-none d-md-block">
@@ -112,16 +131,7 @@ if(!isset($_SESSION['IS_LOGIN'])){
           </button>
 
           <!-- Topbar Search -->
-          <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-            <div class="input-group">
-              <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
-              <div class="input-group-append">
-                <button class="btn btn-primary" type="button">
-                  <i class="fas fa-search fa-sm"></i>
-                </button>
-              </div>
-            </div>
-          </form>
+        
 
           <!-- Topbar Navbar -->
           <ul class="navbar-nav ml-auto">
@@ -158,18 +168,7 @@ if(!isset($_SESSION['IS_LOGIN'])){
               </a>
               <!-- Dropdown - User Information -->
               <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-                <a class="dropdown-item" href="#">
-                  <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                  Profile
-                </a>
-                <a class="dropdown-item" href="#">
-                  <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
-                  Settings
-                </a>
-                <a class="dropdown-item" href="#">
-                  <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
-                  Activity Log
-                </a>
+        
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="logout.php">
                   <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
@@ -200,8 +199,8 @@ if(!isset($_SESSION['IS_LOGIN'])){
                 <div class="card-body">
                   <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
-                      <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">newly registered</div>
-                      <div class="h5 mb-0 font-weight-bold text-gray-800">5</div>
+                      <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">pending courses</div>
+                      <div class="h5 mb-0 font-weight-bold text-gray-800"><?php echo $data_pending ?></div>
                     </div>
                     <div class="col-auto">
                       <i class="far fa-user fa-2x text-gray-300"></i>
@@ -217,8 +216,8 @@ if(!isset($_SESSION['IS_LOGIN'])){
                 <div class="card-body">
                   <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
-                      <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Total courses</div>
-                      <div class="h5 mb-0 font-weight-bold text-gray-800">30</div>
+                      <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Approved courses</div>
+                      <div class="h5 mb-0 font-weight-bold text-gray-800"><?php echo $data_approve ?></div>
                     </div>
                     <div class="col-auto">
                       <i class="fas fa-laptop-code fa-2x text-gray-300"></i>
@@ -230,7 +229,7 @@ if(!isset($_SESSION['IS_LOGIN'])){
 			</div>
 
 	    <!-- Content Column -->
-            <h5> Courses Order Detail </h5>
+            <h5> Courses Registration Details </h5>
   <div class="row">
 
     <!-- Area Chart -->

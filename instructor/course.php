@@ -22,7 +22,7 @@ if (isset($_GET['type']) && $_GET['type'] != '') {
 		mysqli_query($con, $delete_sql);
 	}
 }
-$sql = "select courses.*, categories.categories from courses, categories where courses.categories_id=categories.id and courses.instructor_name='$user_id' order by courses.id desc";
+$sql = "select courses.*, categories.categories from courses, categories where courses.categories_id=categories.id and courses.instructor_name='$user_id' and courses.status='Pending' order by courses.id desc";
 $res = mysqli_query($con, $sql);
 ?>
 
@@ -30,13 +30,13 @@ $res = mysqli_query($con, $sql);
 <div class="container-fluid">
 
 	<!-- Page Heading -->
-	<h1 class="h3 mb-2 text-gray-800">COURSES</h1>
+	<h1 class="h3 mb-2 text-gray-800">PENDING COURSES</h1>
 
 
 	<!-- DataTales Example -->
 	<div class="card shadow mb-4">
 		<div class="card-header py-3">
-			<h6 class="m-0 font-weight-bold text-primary">List of Courses</h6>
+			<h6 class="m-0 font-weight-bold text-primary">List of Pending Courses</h6>
 			<a href="add_course.php" style="float: right;" class="btn btn-success">
 				<span class="text">+ Add Course</span>
 			</a>
@@ -46,7 +46,6 @@ $res = mysqli_query($con, $sql);
 				<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
 					<thead>
 						<tr>
-							<th>#</th>
 							<th>ID</th>
 							<th>Categories</th>
 							<th>Name</th>
@@ -59,7 +58,6 @@ $res = mysqli_query($con, $sql);
 					</thead>
 					<tfoot>
 						<tr>
-							<th>#</th>
 							<th>ID</th>
 							<th>Categories</th>
 							<th>Name</th>
@@ -71,11 +69,9 @@ $res = mysqli_query($con, $sql);
 					</tfoot>
 					<tbody>
 						<?php
-						$i = 1;
 						while ($row = mysqli_fetch_assoc($res)) :
 						?>
 							<tr>
-								<td><?php echo $i; ?></td>
 								<td><?php echo $row['id']; ?></td>
 								<td><?php echo $row['categories']; ?></td>
 								<td><?php echo $row['name']; ?></td>

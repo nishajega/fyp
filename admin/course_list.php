@@ -1,9 +1,9 @@
 <?php
 require('top.php');
 $id=get_safe_value($con, $_GET['id']);
-$res=mysqli_query($con, "select cert.*,courses.name,ordered.order_status, order_detail.order_id from 
+$res=mysqli_query($con, "select distinct(cert.order_detail_id),cert.*,courses.name,ordered.order_status, order_detail.order_id from 
 cert, courses, ordered, order_detail where cert.course='$id' and cert.course=courses.id and cert.order_detail_id=order_detail.id 
-and order_detail.order_id=ordered.id and ordered.order_status='3' group by cert.date");
+and order_detail.order_id=ordered.id and ordered.order_status='3' order by cert.date desc");
 
 ?>
 
@@ -39,12 +39,12 @@ and order_detail.order_id=ordered.id and ordered.order_status='3' group by cert.
 					while($row=mysqli_fetch_array($res)){
 						?>
                             <tr>
-                                <td><?php echo $row[0] ?></td>
-                                <td><?php echo $row[2] ?></a></td>
-                                <td><?php echo $row[3] ?></td>
-                                <td><?php echo $row[8] ?></td>
+                                <td><?php echo $row[1] ?></td>
+                                <td><?php echo $row[3] ?></a></td>
+                                <td><?php echo $row[4] ?></td>
+                                <td><?php echo $row[9] ?></td>
+                                <td><?php echo $row[7] ?></td>
                                 <td><?php echo $row[6] ?></td>
-                                <td><?php echo $row[5] ?></td>
                                 
                             </tr>
 					<?php } ?>

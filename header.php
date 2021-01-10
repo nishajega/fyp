@@ -19,7 +19,7 @@ $id = $row['id'];
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="" />
     <meta name="author" content="" />
-    <title>Creative - Start Bootstrap Theme</title>
+    <title>UNITEN EEProMS</title>
     <!-- Favicon-->
     <link rel="icon" type="image/x-icon" href="assets/img/logo.png" />
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">

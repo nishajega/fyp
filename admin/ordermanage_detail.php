@@ -14,7 +14,8 @@ if(isset($_POST['update_order_status'])){
 		from ordered, users_front where users_front.name=ordered.user_name and ordered.id='$order_id'"));
 		$html='Your recent order with UNITEN Executive Education Programmes
 		has been <strong>cancelled</strong>. Please contact our team for more information.
-		You can also check in the website for <strong>My Order</strong> for more information regarding your order.';
+		You can also check in the website for <strong>My Order</strong> for more information regarding your order.
+		If your payment is successful, then the money will be refunded in one week time. Sorry for the inconvenience!';
 		include('smtp/PHPMailerAutoload.php');
 		$mail=new PHPMailer(true);
 		$mail->isSMTP();
@@ -49,13 +50,13 @@ if(isset($_POST['update_order_status'])){
 <div class="container-fluid">
 
     <!-- Page Heading -->
-    <h1 class="h3 mb-2 text-gray-800">ORDERS</h1>
+    <h1 class="h3 mb-2 text-gray-800">REGISTERED COURSES</h1>
 
 
     <!-- DataTales Example -->
     <div class="card shadow mb-4">
         <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">List of Instructor</h6>
+            <h6 class="m-0 font-weight-bold text-primary">List of Registered Courses </h6>
         </div>
         <div class="card-body">
             <div class="table-responsive">

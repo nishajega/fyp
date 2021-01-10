@@ -43,11 +43,10 @@ $res = mysqli_query($con, $sql);
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                         <tr>
-                            <th>#</th>
                             <th>ID</th>
                             <th>Name</th>
                             <th>EMAIL</th>
-                            <th>IC no.</th>
+                            <th>Staff ID.</th>
                             <th>Phone no.</th>
                             <th>Status</th>
                             <th>Action</th>
@@ -57,11 +56,9 @@ $res = mysqli_query($con, $sql);
                    
                     <tbody>
                         <?php
-                        $i = 1;
                         while ($row = mysqli_fetch_assoc($res)) {
                         ?>
                             <tr>
-                                <td><?php echo $i; ?></td>
                                 <td><?php echo $row['id']; ?></td>
                                 <td><?php echo $row['name']; ?></td>
                                 <td><?php echo $row['email']; ?></td>
@@ -70,7 +67,7 @@ $res = mysqli_query($con, $sql);
                                 <td><?php echo $row['status']; ?></td>
                                 <td>
                                     <?php
-                                    echo "<a href='instructor_delete.php?id=" . $row['id'] . "' onclick='return confirm_delete()'><span class='btn btn-primary'>DISABLE</span></a>&nbsp;";
+                                    echo "<a href='instructor_delete.php?id=" . $row['id'] . "' onclick='return confirm_delete()'><span class='btn btn-danger'>DISABLE</span></a>&nbsp;";
 									echo "<a href='instructor_activate.php?id=" . $row['id'] . "' onclick='return confirm_active()'><span class='btn btn-primary'>ABLE</span></a>&nbsp;";
                                     ?>
                                 </td>

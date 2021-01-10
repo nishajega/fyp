@@ -3,19 +3,6 @@ require('top.php');
 
 $msg='';
 if (isset($_POST['submit'])) {
-	$targetfolder = "testupload/";
-
-	$targetfolder = $targetfolder . basename($_FILES['file']['name']);
-
-	if (move_uploaded_file($_FILES['file']['tmp_name'], $targetfolder)) {
-
-		echo "The file " . basename($_FILES['file']['name']) . " is uploaded";
-		$filename = basename($_FILES['file']['name']);
-
-	} else {
-
-		echo "No file uploaded";
-	}
 
 	$categories_id = get_safe_value($con, $_POST['categories_id']);
 	$name = get_safe_value($con, $_POST['name']);
@@ -40,6 +27,12 @@ if (isset($_POST['submit'])) {
 		$query_res = mysqli_query($con, $query_insert);
 
 		echo "<h1> COURSE ADDED! </h1>";
+		
+		?>
+		<script>
+		window.location.href='course.php';
+		</script>
+		<?php
 	}
 }
 ?>
@@ -54,7 +47,7 @@ if (isset($_POST['submit'])) {
 
 	<!-- Page Heading -->
 	<div class="error"><?php echo $msg ?></div>
-	<h1 class="h3 mb-4 text-gray-800">Add Categories</h1>
+	<h1 class="h3 mb-4 text-gray-800">Add Course</h1>
 	<form method="post" action="" enctype="multipart/form-data" name="myForm" id="myForm">
 		<div style="color:red; margin: 5px;"></div>
 		<input type="hidden" name="instructor_name" value="<?php echo $_SESSION['instructor_name']; ?>">
@@ -62,8 +55,8 @@ if (isset($_POST['submit'])) {
 		<div class="instr">
 		
 			<label for="categories"><b>Category</b></label>
-			<select class="form-control" name="categories_id" id="category">
-				<option>Select Category</option>
+			<select class="form-control" name="categories_id" id="categories_id" required>
+				<option value="">Select Category</option>
 				<?php
 				$res = mysqli_query($con, "select id,categories from categories order by categories asc");
 				while ($row = mysqli_fetch_assoc($res)) {
@@ -74,10 +67,10 @@ if (isset($_POST['submit'])) {
 					}
 				}
 				?>
-			</select>
+			</select><br>
 
 			<label for="name"><b>Course Name</b></label>
-			<input type="text" placeholder="Enter Course Name" name="name" id="name" style="text-transform: uppercase"><br>
+			<input type="text" placeholder="Enter Course Name" name="name" id="name"><br>
 
 			<label for="description"><b>Description</b></label>
 			<textarea placeholder="Description about the course..." rows="3" name="description" id="description"></textarea><br>
@@ -93,20 +86,19 @@ if (isset($_POST['submit'])) {
 
 			<label for="duration"><b>Duration</b></label>
 			<input type="integer" placeholder="Days" name="duration" id="duration" required><br>
+
+			<label for="dates"><b>Choices of Date</b></label><br>
 			
-			<label for="file"><b>Upload file here</b></label>
-			<input type="file" name="file" size="50" /><br><br>
+			<label for="dates"><b>Date</b></label>
+			<input type="date" placeholder="dd/mm/yyyy" name="dates" id="dates" required><br><br>
 
-			<label for="dates"><b>Dates</b></label>
-			<input type="date" placeholder="dd/mm/yyyy" name="dates" id="dates" ><br><br>
-
-			<label for="dates"><b>Dates</b></label>
+			<label for="dates"><b>Date</b></label>
 			<input type="date" placeholder="dd/mm/yyyy" name="dates2" id="dates2" ><br><br>
 
-			<label for="dates"><b>Dates</b></label>
+			<label for="dates"><b>Date</b></label>
 			<input type="date" placeholder="dd/mm/yyyy" name="dates3" id="dates3" ><br><br>
 
-			<label for="dates"><b>Dates</b></label>
+			<label for="dates"><b>Date</b></label>
 			<input type="date" placeholder="dd/mm/yyyy" name="dates4" id="dates4" ><br><br>
 
 			<button type="submit" name="submit" style="text-align: center;" class="btn btn-success btn-icon-split">
@@ -123,7 +115,9 @@ if (isset($_POST['submit'])) {
 <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.2/dist/jquery.validate.js"></script>
 <script src="multiselect/jquery.multiselect.js"></script>
 <script type="text/javascript">
-
+	$.validator.addMethod("notNone", function(value, element){
+		return(value != "");
+	}, "Please select an option");
 	// Wait for the DOM to be ready
     // Initialize form validation on the registration form.
     // It has the name attribute "registration"
@@ -133,8 +127,8 @@ if (isset($_POST['submit'])) {
             // The key name on the left side is the name attribute
             // of an input field. Validation rules are defined
             // on the right side
-            category:{
-				required: true
+            categories_id:{
+				notNone: true
 			},
 			name: {
                 required: true
@@ -165,9 +159,6 @@ if (isset($_POST['submit'])) {
         },
         // Specify validation error messages
         messages: {
-			category: {
-                required: "Category required"
-            },
             name: {
                 required: "Please enter course name"
             },
@@ -186,7 +177,9 @@ if (isset($_POST['submit'])) {
             },
             duration: {
                 required: "Please Enter Duration",
-                number: "Enter numeric value only"
+                number: "Enter numeric value only",
+				min:"Enter valid numeric value only",
+				max:"Enter valid numeric value only"
             },
 			dates: {
                 required: "Please choose a date"
