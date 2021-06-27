@@ -604,9 +604,9 @@ $html='<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://ww
 	$mail->CharSet ='UTF-8';
 	$mail->SMTPSecure="tls";
 	$mail->SMTPAuth=true;
-	$mail->Username="vesha2797@gmail.com";
-	$mail->Password="Veshadoll2712";
-	$mail->SetFrom("vesha2797@gmail.com");
+	$mail->Username="yourEmail";
+	$mail->Password="emailPassword";
+	$mail->SetFrom("email");
 	$mail->addAddress($user_order['email']);
 	$mail->IsHTML(true);
 	$mail->Subject="Invoice Details";
