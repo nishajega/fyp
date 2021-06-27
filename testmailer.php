@@ -27,10 +27,10 @@ if (isset($_POST['submit'])) {
     $mail->SMTPSecure = "tls";
     $mail->Port       = 587;
     $mail->Host       = "smtp.gmail.com";
-    $mail->Username   = "vesha2797@gmail.com";
-    $mail->Password   = "Veshadoll2712";
+    $mail->Username   = "email";
+    $mail->Password   = "password";
     $mail->IsHTML(true);
-    $mail->AddAddress("vesha2797@gmail.com", "test");
+    $mail->AddAddress("email", "test");
     $mail->SetFrom($email);
     $mail->AddReplyTo($email);
     //$mail->AddCC("cc-recipient-email@domain", "cc-recipient-name");
